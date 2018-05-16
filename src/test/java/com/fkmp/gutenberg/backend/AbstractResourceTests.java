@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,13 +25,13 @@ import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("itest")
 public abstract class AbstractResourceTests {
 
     protected final Client client;
 
-    //@Value("${local.server.port}")
-    protected int port = 5050;
+    @LocalServerPort
+    protected int port;
 
     @Inject
     public AbstractResourceTests() {
