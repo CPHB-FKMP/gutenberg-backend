@@ -1,6 +1,6 @@
 package com.fkmp.gutenberg.backend;
 
-import com.fkmp.gutenberg.backend.model.Book;
+import com.fkmp.gutenberg.backend.api.model.BookDto;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.Assertions;
@@ -53,7 +53,7 @@ public abstract class AbstractResourceTests {
         return t.request();
     }
 
-    protected void testArray(ArrayList<Book> expected, ArrayList<Book> actual) {
+    protected void testArray(ArrayList<BookDto> expected, ArrayList<BookDto> actual) {
         Assertions.assertAll("Books", () -> {
             Assertions.assertNotNull(actual);
             Assertions.assertEquals(expected.size(), actual.size());
@@ -61,7 +61,7 @@ public abstract class AbstractResourceTests {
         });
     }
 
-    public static final class BookList extends ArrayList<Book> {
+    public static final class BookList extends ArrayList<BookDto> {
         private static final long serialVersionUID = 1L;
     }
 }
