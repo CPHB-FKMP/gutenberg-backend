@@ -13,8 +13,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 @ActiveProfiles(profiles = "itest", inheritProfiles = false)
 public class PostgresIT extends AbstractResourceTests {
 
