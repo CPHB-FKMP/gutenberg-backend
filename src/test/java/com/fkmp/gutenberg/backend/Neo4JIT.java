@@ -1,6 +1,6 @@
 package com.fkmp.gutenberg.backend;
 
-import com.fkmp.gutenberg.backend.model.Book;
+import com.fkmp.gutenberg.backend.api.model.BookDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,8 +22,8 @@ public class Neo4JIT extends AbstractResourceTests {
     @Description("Returns all book titles and authors in a given city")
     public void getBooksOnCity(){
         // Expected book list
-        ArrayList<Book> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new Book());
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();
+        expectedBooks.add(new BookDto());
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
@@ -31,7 +31,7 @@ public class Neo4JIT extends AbstractResourceTests {
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
-        ArrayList<Book> result = response.readEntity(BookList.class);
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
 
 
         testArray(expectedBooks, result);
@@ -41,8 +41,8 @@ public class Neo4JIT extends AbstractResourceTests {
     @Description("Returns all cities mention in a given book title")
     public void getBookOnTitle(){
         // Expected book list
-        ArrayList<Book> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new Book());
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();
+        expectedBooks.add(new BookDto());
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
@@ -50,7 +50,7 @@ public class Neo4JIT extends AbstractResourceTests {
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
-        ArrayList<Book> result = response.readEntity(BookList.class);
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
 
         testArray(expectedBooks, result);
     }
@@ -59,8 +59,8 @@ public class Neo4JIT extends AbstractResourceTests {
     @Description("Returns all books on the given author")
     public void getBooksOnAuthor(){
         // Expected book list
-        ArrayList<Book> expectedBooks = new ArrayList<>();;
-        expectedBooks.add(new Book());
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();;
+        expectedBooks.add(new BookDto());
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
@@ -68,7 +68,7 @@ public class Neo4JIT extends AbstractResourceTests {
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
-        ArrayList<Book> result = response.readEntity(BookList.class);
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
 
         testArray(expectedBooks, result);
 
@@ -78,8 +78,8 @@ public class Neo4JIT extends AbstractResourceTests {
     @Description("#4 - Returns all Books in a given vicinity")
     public void getBooksOnGeolocation(){
         // Expected book list
-        ArrayList<Book> expectedBooks = new ArrayList<>();;
-        expectedBooks.add(new Book());
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();;
+        expectedBooks.add(new BookDto());
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
@@ -88,7 +88,7 @@ public class Neo4JIT extends AbstractResourceTests {
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
-        ArrayList<Book> result = response.readEntity(BookList.class);
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
 
         testArray(expectedBooks, result);
     }

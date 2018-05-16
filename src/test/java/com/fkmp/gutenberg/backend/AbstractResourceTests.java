@@ -1,6 +1,6 @@
 package com.fkmp.gutenberg.backend;
 
-import com.fkmp.gutenberg.backend.model.Book;
+import com.fkmp.gutenberg.backend.api.model.BookDto;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,13 +25,13 @@ import java.util.ArrayList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("itest")
 public abstract class AbstractResourceTests {
 
     protected final Client client;
 
-    //@Value("${local.server.port}")
-    protected int port = 5050;
+    @LocalServerPort
+    protected int port;
 
     @Inject
     public AbstractResourceTests() {
@@ -53,7 +54,7 @@ public abstract class AbstractResourceTests {
         return t.request();
     }
 
-    protected void testArray(ArrayList<Book> expected, ArrayList<Book> actual) {
+    protected void testArray(ArrayList<BookDto> expected, ArrayList<BookDto> actual) {
         Assertions.assertAll("Books", () -> {
             Assertions.assertNotNull(actual);
             Assertions.assertEquals(expected.size(), actual.size());
@@ -61,7 +62,7 @@ public abstract class AbstractResourceTests {
         });
     }
 
-    public static final class BookList extends ArrayList<Book> {
+    public static final class BookList extends ArrayList<BookDto> {
         private static final long serialVersionUID = 1L;
     }
 }
