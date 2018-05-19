@@ -22,7 +22,7 @@ import java.util.Map;
 public class Neo4jResource {
 
     @Inject
-    BookService bookService;
+    BookService neo4jBookService;
 
     @GetMapping("/book")
     public List<BookDto> getBooksBy(@RequestParam Map<String, String> requestParams) {
@@ -31,7 +31,7 @@ public class Neo4jResource {
             throw new NotFoundException("You need to provide at least one parameter for this request");
         }
 
-        return bookService.getBook(requestParams, "neo4j");
+        return neo4jBookService.getBook(requestParams);
 
     }
 }

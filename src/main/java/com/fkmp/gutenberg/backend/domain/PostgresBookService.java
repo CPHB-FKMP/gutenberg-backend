@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-public class BookServicePostgres implements BookService {
+public class PostgresBookService implements BookService {
 
     @Inject
     PostgreSQLRepository repository;

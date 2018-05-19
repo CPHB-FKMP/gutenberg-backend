@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BookServiceNeo4j implements BookService {
+public class Neo4jBookService implements BookService {
 
     @Inject
     Neo4jRepository repository;

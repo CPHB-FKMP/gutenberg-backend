@@ -1,9 +1,12 @@
 package com.fkmp.gutenberg.backend.model.neo4j;
 
+import com.fkmp.gutenberg.backend.model.AbstractCity;
 import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.geo.Point;
 
-public class City {
+@NodeEntity
+public class City extends AbstractCity {
 
     private String name;
 
