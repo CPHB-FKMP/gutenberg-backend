@@ -4,6 +4,7 @@ import com.fkmp.gutenberg.backend.api.model.BookDto;
 import com.fkmp.gutenberg.backend.exceptions.NotFoundException;
 import com.fkmp.gutenberg.backend.model.postgres.Book;
 import com.fkmp.gutenberg.backend.repository.PostgreSQLRepository;
+import org.springframework.data.geo.Point;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -18,23 +19,25 @@ public class BookServicePostgres implements BookService {
     public List<BookDto> getBook(Map<String, String> params) {
         List<Book> books = null;
         if (params.get("title") != null) {
-            books = repository.getBooks();
+            books = repository.getCitiesByTitle(params.get("title"));
         }
 
-        else if (params.get("city") != null) {
-            books = repository.getBooks();
+        if (params.get("city") != null) {
+            books = repository.getBooksByCity(params.get("city"));
         }
 
-        else if (params.get("author") != null) {
-            books = repository.getBooks();
+        if (params.get("author") != null) {
+            books = repository.getBooksByAuthor(params.get("author"));
         }
 
-        else if (params.get("lat") != null && params.get("long") != null) {
-            books = repository.getBooks();
+        if (params.get("lat") != null && params.get("long") != null) {
+            Double latitude = Double.parseDouble(params.get("lat"));
+            Double longitude = Double.parseDouble(params.get("long"));
+            books = repository.getBooksByLocation(new Point(latitude, longitude));
         }
 
-        else {
-            throw new NotFoundException("Query parameter is not correct");
+        if (books == null || books.size() == 0) {
+            throw new NotFoundException("Nothing was found. Try querying for something else");
         }
 
         return BookMapper.postgresBooksToBooksDto(books);
