@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface BookService {
-    List<BookDto> getBook(Map<String, String> params, String service);
+    List<BookDto> getBook(Map<String, String> params);
 }

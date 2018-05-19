@@ -29,21 +29,7 @@ public class PostgreSQLResource {
             throw new NotFoundException("You need to provide at least one parameter for this request");
         }
 
-        if (requestParams.get("title") != null) {
-            return new ArrayList<>();
-        }
 
-        if (requestParams.get("city") != null) {
-            return new ArrayList<>();
-        }
-
-        if (requestParams.get("author") != null) {
-            return new ArrayList<>();
-        }
-
-        if (requestParams.get("lat") != null && requestParams.get("long") != null) {
-            return new ArrayList<>();
-        }
 
         throw new NotFoundException("You need to provide a correct parameter for this request");
     }
