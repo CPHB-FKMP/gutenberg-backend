@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,7 +25,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class PostgreSQLResource {
 
-    @Inject
+    @Inject @Named("postgres.book.service")
     BookService postgresBookService;
 
     @GetMapping("/book")

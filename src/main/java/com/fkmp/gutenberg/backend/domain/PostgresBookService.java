@@ -5,15 +5,19 @@ import com.fkmp.gutenberg.backend.exceptions.NotFoundException;
 import com.fkmp.gutenberg.backend.model.postgres.Book;
 import com.fkmp.gutenberg.backend.repository.PostgreSQLRepository;
 import org.springframework.data.geo.Point;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
+@Service
+@Named("postgres.book.service")
 public class PostgresBookService implements BookService {
 
     @Inject
-    PostgreSQLRepository repository;
+    private PostgreSQLRepository repository;
 
     @Override
     public List<BookDto> getBook(Map<String, String> params) {
@@ -23,11 +27,11 @@ public class PostgresBookService implements BookService {
         }
 
         if (params.get("city") != null) {
-            books = repository.getBooksByCity(params.get("city"));
+            books = repository.getBooksMentioningCity(params.get("city"));
         }
 
         if (params.get("author") != null) {
-            books = repository.getBooksByAuthor(params.get("author"));
+            books = repository.getBooksByAuthorName(params.get("author"));
         }
 
         if (params.get("lat") != null && params.get("long") != null) {

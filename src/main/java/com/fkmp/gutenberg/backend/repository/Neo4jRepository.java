@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface Neo4jRepository extends CrudRepository<Book, String> {
 
-    @Query("")
-    List<Book> getBooksByCity(String cityName);
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
+    List<Book> getBooksMentioningCity(String cityName);
 
-    @Query("")
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getCitiesByTitle(String bookTitle);
 
-    @Query("")
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getBooksByAuthor(String authorName);
 
-    @Query("")
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getBooksByLocation(Point location);
 }

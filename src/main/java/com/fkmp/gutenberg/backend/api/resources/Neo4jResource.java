@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -21,7 +22,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class Neo4jResource {
 
-    @Inject
+    @Inject @Named("neo4j.book.service")
     BookService neo4jBookService;
 
     @GetMapping("/book")

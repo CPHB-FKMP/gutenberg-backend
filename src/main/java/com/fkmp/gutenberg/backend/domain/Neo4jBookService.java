@@ -8,16 +8,16 @@ import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Named("neo4j.book.service")
 public class Neo4jBookService implements BookService {
 
     @Inject
-    Neo4jRepository repository;
-
+    private Neo4jRepository repository;
 
     @Override
     public List<BookDto> getBook(Map<String, String> params) {
@@ -27,7 +27,7 @@ public class Neo4jBookService implements BookService {
         }
 
         if (params.get("city") != null) {
-            books = repository.getBooksByCity(params.get("city"));
+            books = repository.getBooksMentioningCity(params.get("city"));
         }
 
         if (params.get("author") != null) {
