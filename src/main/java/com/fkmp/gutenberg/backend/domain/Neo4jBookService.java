@@ -27,7 +27,9 @@ public class Neo4jBookService implements BookService {
         }
 
         if (params.get("city") != null) {
-            books = repository.getBooksMentioningCity(params.get("city"));
+            // books = repository.getBooksMentioningCity(params.get("city"));
+            books = repository.getAll();
+
         }
 
         if (params.get("author") != null) {

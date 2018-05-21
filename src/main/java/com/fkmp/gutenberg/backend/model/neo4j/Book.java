@@ -2,6 +2,7 @@ package com.fkmp.gutenberg.backend.model.neo4j;
 
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @NodeEntity
 public class Book {
     @Id
+    @Property(name = "bookId")
     private String id;
 
     private String title;

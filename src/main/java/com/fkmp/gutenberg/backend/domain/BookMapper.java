@@ -18,27 +18,31 @@ public class BookMapper {
             toBook.setId(fromBook.getId());
             toBook.setTitle(fromBook.getTitle());
 
-            List<com.fkmp.gutenberg.backend.api.model.Author> authors = new ArrayList<>();
+            if (fromBook.getAuthors() != null) {
+                List<com.fkmp.gutenberg.backend.api.model.Author> authors = new ArrayList<>();
+                for (Author fromAuthor : fromBook.getAuthors()) {
+                    com.fkmp.gutenberg.backend.api.model.Author toAuthor = new com.fkmp.gutenberg.backend.api.model.Author();
+                    toAuthor.setName(fromAuthor.getName());
+                    authors.add(toAuthor);
+                }
 
-            for (Author fromAuthor : fromBook.getAuthors()) {
-                com.fkmp.gutenberg.backend.api.model.Author toAuthor = new com.fkmp.gutenberg.backend.api.model.Author();
-                toAuthor.setName(fromAuthor.getName());
-                authors.add(toAuthor);
+                toBook.setAuthors(authors);
             }
 
-            toBook.setAuthors(authors);
+            if (fromBook.getCities() != null) {
+                List<com.fkmp.gutenberg.backend.api.model.City> cities = new ArrayList<>();
 
-            List<com.fkmp.gutenberg.backend.api.model.City> cities = new ArrayList<>();
+                for (City fromCity : fromBook.getCities()) {
+                    com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
+                    toCity.setName(fromCity.getName());
+                    toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
+                    toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
+                    cities.add(toCity);
+                }
 
-            for (City fromCity : fromBook.getCities()) {
-                com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
-                toCity.setName(fromCity.getName());
-                toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
-                toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
-                cities.add(toCity);
+                toBook.setCities(cities);
             }
-
-            toBook.setCities(cities);
+            toBooks.add(toBook);
         }
 
         return toBooks;
@@ -52,28 +56,28 @@ public class BookMapper {
             toBook.setId(fromBook.getId());
             toBook.setTitle(fromBook.getTitle());
 
-            List<com.fkmp.gutenberg.backend.api.model.Author> authors = new ArrayList<>();
-
-            for (com.fkmp.gutenberg.backend.model.postgres.Author fromAuthor : fromBook.getAuthors()) {
-                com.fkmp.gutenberg.backend.api.model.Author toAuthor = new com.fkmp.gutenberg.backend.api.model.Author();
-                toAuthor.setName(fromAuthor.getName());
-                authors.add(toAuthor);
+            if (fromBook.getAuthors() != null) {
+                List<com.fkmp.gutenberg.backend.api.model.Author> authors = new ArrayList<>();
+                for (com.fkmp.gutenberg.backend.model.postgres.Author fromAuthor : fromBook.getAuthors()) {
+                    com.fkmp.gutenberg.backend.api.model.Author toAuthor = new com.fkmp.gutenberg.backend.api.model.Author();
+                    toAuthor.setName(fromAuthor.getName());
+                    authors.add(toAuthor);
+                }
+                toBook.setAuthors(authors);
             }
 
-            toBook.setAuthors(authors);
-
-            List<com.fkmp.gutenberg.backend.api.model.City> cities = new ArrayList<>();
-
-            for (com.fkmp.gutenberg.backend.model.postgres.City fromCity : fromBook.getCities()) {
-                com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
-                toCity.setName(fromCity.getName());
-                toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
-                toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
-                cities.add(toCity);
+            if (fromBook.getCities() != null) {
+                List<com.fkmp.gutenberg.backend.api.model.City> cities = new ArrayList<>();
+                for (com.fkmp.gutenberg.backend.model.postgres.City fromCity : fromBook.getCities()) {
+                    com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
+                    toCity.setName(fromCity.getName());
+                    toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
+                    toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
+                    cities.add(toCity);
+                }
+                toBook.setCities(cities);
             }
-
-            toBook.setCities(cities);
-
+            toBooks.add(toBook);
         }
 
         return toBooks;

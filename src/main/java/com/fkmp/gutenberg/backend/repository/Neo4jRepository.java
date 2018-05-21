@@ -20,4 +20,7 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
 
     @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getBooksByLocation(Point location);
+
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
+    List<Book> getAll();
 }

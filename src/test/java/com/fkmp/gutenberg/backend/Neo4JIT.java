@@ -78,8 +78,8 @@ public class Neo4JIT extends AbstractResourceTests {
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("lat", "XXXX");
-        params.putSingle("long", "XXXX");
+        params.putSingle("lat", "74.000");
+        params.putSingle("long", "12.000");
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
