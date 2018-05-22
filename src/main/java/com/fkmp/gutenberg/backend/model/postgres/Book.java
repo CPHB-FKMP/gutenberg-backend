@@ -1,12 +1,10 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "books")
 public class Book {
 
     @Id
@@ -16,9 +14,15 @@ public class Book {
     private String title;
 
     @ManyToMany
+    @JoinTable(name = "authors_books",
+                joinColumns = @JoinColumn(name = "book_id"),
+                inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
     @ManyToMany
+    @JoinTable(name = "books_cities",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = {@JoinColumn(name = "latitude"), @JoinColumn(name = "longitude")})
     private List<City> cities;
 
     public Book() {

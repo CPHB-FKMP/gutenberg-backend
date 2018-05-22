@@ -25,7 +25,7 @@ public class PostgresIT extends AbstractResourceTests {
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("city", "XXXX");
+        params.putSingle("city", "Copenhagen");
         Response response = getRequest("/postgres/book", params).get();
 
         // Collect the result from the response
