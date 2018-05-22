@@ -12,7 +12,10 @@ CREATE TABLE IF NOT EXISTS books (
 
 CREATE TABLE IF NOT EXISTS cities (
     name varchar,
-    location point PRIMARY KEY
+    location point,
+    latitude double precision,
+    longitude double precision,
+    PRIMARY KEY(latitude, longitude)
 );
 
 CREATE TABLE IF NOT EXISTS authors_books(
