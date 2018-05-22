@@ -24,8 +24,8 @@ When you are logged in as a user then you can run the following commands
 
 ```
 docker exec neo4j-data sh -c 'neo4j-admin import \
-    --nodes:Author /import/authors.csv --nodes:Book /import/books.csv --nodes:City /import/cities.csv \
-    --relationships:WRITTEN_BY /import/books-authors.csv --relationships:CONTAINS /import/books-cities.csv \
+    --nodes:Author /import/neo-authors.csv --nodes:Book /import/neo-books.csv --nodes:City /import/neo-cities.csv \
+    --relationships:WRITTEN_BY /import/neo-books-authors.csv --relationships:CONTAINS /import/neo-books-cities.csv \
     --ignore-missing-nodes=true \
     --ignore-duplicate-nodes=true \
 --delimiter "|"'
