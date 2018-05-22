@@ -13,11 +13,11 @@ login to the PostgreSQL database as appdev user
 
 When you are logged in as a user then you can run the following commands
 
-- `\copy books FROM 'import/postgres-books.csv' WITH CSV HEADER DELIMITER AS '|';`
-- `\copy cities FROM 'import/postgres-cities.csv' WITH CSV HEADER DELIMITER AS '|';`
-- `\copy authors FROM 'import/postgres-authors.csv' WITH CSV HEADER DELIMITER AS '|';`
-- `\copy authors_books FROM 'import/postgres-books-authors.csv' WITH CSV HEADER DELIMITER AS '|';`
-- `\copy books_cities FROM 'import/postgres-books-cities.csv' WITH CSV HEADER DELIMITER AS '|';`
+- `\copy gutenberg.books FROM 'import/postgres-books.csv' WITH CSV HEADER DELIMITER AS '|';`
+- `\copy gutenberg.cities FROM 'import/postgres-cities.csv' WITH CSV HEADER DELIMITER AS '|';`
+- `\copy gutenberg.authors FROM 'import/postgres-authors.csv' WITH CSV HEADER DELIMITER AS '|';`
+- `\copy gutenberg.authors_books FROM 'import/postgres-books-authors.csv' WITH CSV HEADER DELIMITER AS '|';`
+- `\copy gutenberg.books_cities FROM 'import/postgres-books-cities.csv' WITH CSV HEADER DELIMITER AS '|';`
 
 
 ## Copy Data from csv to Neo4j
