@@ -53,4 +53,21 @@ public class BookDto {
     public void setCities(List<City> cities) {
         this.cities = cities;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!BookDto.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final BookDto other = (BookDto) obj;
+        if (this.id == null || other.title == null) {
+            return false;
+        }
+
+        return this.id.equals(other.id) && this.title.equals(other.title);
+    }
+
 }
