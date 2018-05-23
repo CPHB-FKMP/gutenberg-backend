@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface PostgreSQLRepository extends CrudRepository<Book, String> {
 
-    @Query(value = "SELECT 1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM books LIMIT 10;", nativeQuery = true)
     List<Book> getBooksMentioningCity(String cityName);
 
-    @Query(value = "SELECT 1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM books LIMIT 10;", nativeQuery = true)
     List<Book> getCitiesByTitle(String bookTitle);
 
-    @Query(value = "SELECT 1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM books LIMIT 10;", nativeQuery = true)
     List<Book> getBooksByAuthorName(String authorName);
 
-    @Query(value = "SELECT 1;", nativeQuery = true)
+    @Query(value = "SELECT * FROM books LIMIT 10;", nativeQuery = true)
     List<Book> getBooksByLocation(Point location);
 }

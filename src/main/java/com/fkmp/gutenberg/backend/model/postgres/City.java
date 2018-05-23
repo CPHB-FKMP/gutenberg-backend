@@ -2,16 +2,21 @@ package com.fkmp.gutenberg.backend.model.postgres;
 
 import org.springframework.data.geo.Point;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class City {
+@Table(name = "cities")
+public class City implements Serializable {
 
     private String name;
 
     @Id
-    private Point location;
+    private Double latitude;
+
+    @Id
+    private Double longitude;
+
 
     public City() {
     }
@@ -24,11 +29,19 @@ public class City {
         this.name = name;
     }
 
-    public Point getLocation() {
-        return location;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setLocation(Point location) {
-        this.location = location;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

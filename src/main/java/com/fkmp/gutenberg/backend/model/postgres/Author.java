@@ -3,8 +3,10 @@ package com.fkmp.gutenberg.backend.model.postgres;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "authors")
 public class Author {
 
     @Id
