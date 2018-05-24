@@ -14,7 +14,7 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
     @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getBooksMentioningCity(String cityName);
     */
-    @Query("MATCH (book:Book)-[:CONTAINS]->(city:City {name: {cityName}}) RETURN book LIMIT 1;")
+    @Query("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: {cityName}}) RETURN book,r,city;")
     List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
     @Query("MATCH (:Book{title:{bookTitle})-[:CONTAINS]-(city:City) RETURN city")

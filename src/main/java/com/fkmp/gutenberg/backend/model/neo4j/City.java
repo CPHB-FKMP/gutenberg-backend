@@ -10,7 +10,7 @@ public class City {
     private String name;
 
     @Id
-    private Point location;
+    private String location;
 
     public City() {
     }
@@ -23,11 +23,11 @@ public class City {
         this.name = name;
     }
 
-    public Point getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 }
