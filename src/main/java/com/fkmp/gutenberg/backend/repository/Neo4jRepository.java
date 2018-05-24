@@ -4,22 +4,25 @@ import com.fkmp.gutenberg.backend.model.neo4j.Book;
 import org.springframework.data.geo.Point;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface Neo4jRepository extends CrudRepository<Book, String> {
 
+    /* Kasper og Phillips
     // MATCH (:City{name:"Copenhagen"})-[:CONTAINS]-(book:Book)-[:WRITTEN_BY]-(author:Author) RETURN book, author
     @Query("MATCH (n:Book) RETURN n LIMIT 10")
     List<Book> getBooksMentioningCity(String cityName);
+    */
+    @Query("MATCH (book:Book)-[:CONTAINS]->(city:City {name: {cityName}}) RETURN book LIMIT 1;")
+    List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
-    // MATCH (:Book{title:"Morals and the Evolution of Man"})-[:CONTAINS]-(city:City) RETURN city
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getCitiesByTitle(String bookTitle);
+    @Query("MATCH (:Book{title:{bookTitle})-[:CONTAINS]-(city:City) RETURN city")
+    List<Book> getCitiesByTitle(@Param("bookTitle") String bookTitle);
 
-    // MATCH (:Author{name:"Maxime Provost"})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getBooksByAuthor(String authorName);
+    @Query("MATCH (:Author{name:{authorName})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city")
+    List<Book> getBooksByAuthor(Param("authorName") String authorName);
 
     // WITH 55.675940 AS lat, 12.565530 AS lon
     //MATCH (l:City)
@@ -27,8 +30,5 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
     //MATCH (l)-[:CONTAINS]-(book:Book)
     //RETURN l
     @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getBooksByLocation(Point location);
-
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getAll();
+    List<Book> getBooksByLocation(Double latitude, Double longitude);
 }

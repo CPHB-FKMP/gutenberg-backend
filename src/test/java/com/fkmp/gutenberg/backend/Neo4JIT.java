@@ -18,18 +18,21 @@ public class Neo4JIT extends AbstractResourceTests {
     public void getBooksOnCity(){
         // Expected book list
         ArrayList<BookDto> expectedBooks = new ArrayList<>();
-        expectedBooks.add(new BookDto());
+        BookDto bookDto = new BookDto();
+        bookDto.setTitle("My Lady of the Chinese Courtyard");
+        bookDto.setId("19665");
+        expectedBooks.add(bookDto);
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("city", "XXXX");
+        params.putSingle("city", "London");
         Response response = getRequest("/neo4j/book", params).get();
 
         // Collect the result from the response
         ArrayList<BookDto> result = response.readEntity(BookList.class);
 
 
-//        testArray(expectedBooks, result);
+        testArray(expectedBooks, result);
     }
 
     @Test
