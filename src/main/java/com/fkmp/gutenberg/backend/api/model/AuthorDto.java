@@ -1,12 +1,12 @@
 package com.fkmp.gutenberg.backend.api.model;
 
-public class Author {
+public class AuthorDto {
     String name;
 
-    public Author() {
+    public AuthorDto() {
     }
 
-    public Author(String name) {
+    public AuthorDto(String name) {
         this.name = name;
     }
 

@@ -2,15 +2,15 @@ package com.fkmp.gutenberg.backend.api.model;
 
 import java.util.Objects;
 
-public class City {
+public class CityDto {
     private String name;
     private Double latitude;
     private Double longitude;
 
-    public City() {
+    public CityDto() {
     }
 
-    public City(String name, Double latitude, Double longitude) {
+    public CityDto(String name, Double latitude, Double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -44,10 +44,10 @@ public class City {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        City city = (City) o;
-        return Objects.equals(name, city.name) &&
-                Objects.equals(latitude, city.latitude) &&
-                Objects.equals(longitude, city.longitude);
+        CityDto cityDto = (CityDto) o;
+        return Objects.equals(name, cityDto.name) &&
+                Objects.equals(latitude, cityDto.latitude) &&
+                Objects.equals(longitude, cityDto.longitude);
     }
 
     @Override

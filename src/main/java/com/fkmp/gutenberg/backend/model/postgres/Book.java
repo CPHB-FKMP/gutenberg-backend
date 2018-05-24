@@ -27,7 +27,7 @@ import java.util.List;
                 resultSetMapping = "Book.getBooksMapping"
         ),
         @NamedNativeQuery(name = "Book.getBooksByLocation",
-                query = "SELECT DISTINCT ON (books.book_id) title, books.book_id, cities.name FROM books JOIN books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) GROUP BY (title, books.book_id, cities.name, cities.latitude, cities.longitude) HAVING geodistance(cities.latitude, cities.longitude, ( :latitude ), ( :longitude )) <= 20;",
+                query = "SELECT DISTINCT ON (books.book_id) title, books.book_id FROM books JOIN books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) GROUP BY (title, books.book_id, cities.latitude, cities.longitude) HAVING geodistance(cities.latitude, cities.longitude, ( :latitude ), ( :longitude )) <= 20;",
                 resultSetMapping = "Book.getBooksMapping"
         )
 })

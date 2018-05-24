@@ -1,9 +1,9 @@
 CREATE SCHEMA IF NOT EXISTS gutenberg AUTHORIZATION appdev;
 SET search_path TO gutenberg;
 
-DROP TABLE IF EXISTS books_cities, authors_books, authors, cities, books;
+DROP TABLE IF EXISTS books_cities, authors_books, authorDtos, cities, books;
 
-CREATE TABLE IF NOT EXISTS authors (
+CREATE TABLE IF NOT EXISTS authorDtos (
     author_id bigint PRIMARY KEY,
     name varchar
 );
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS cities (
 
 CREATE TABLE IF NOT EXISTS authors_books(
     book_id varchar references books(book_id),
-    author_id bigint references authors(author_id)
+    author_id bigint references authorDtos(author_id)
 );
 
 CREATE TABLE IF NOT EXISTS books_cities(
@@ -37,6 +37,6 @@ CREATE INDEX city_name_index ON cities USING btree(name);
 
 CREATE INDEX book_title_index ON books USING btree(title);
 
-CREATE INDEX author_name_index ON authors USING btree(name);
+CREATE INDEX author_name_index ON authorDtos USING btree(name);
 
 CREATE INDEX city_location_index ON cities USING gist(location);

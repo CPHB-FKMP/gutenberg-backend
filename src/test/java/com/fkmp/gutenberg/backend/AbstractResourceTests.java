@@ -1,7 +1,7 @@
 package com.fkmp.gutenberg.backend;
 
 import com.fkmp.gutenberg.backend.api.model.BookDto;
-import com.fkmp.gutenberg.backend.api.model.City;
+import com.fkmp.gutenberg.backend.api.model.CityDto;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.Assert;
@@ -106,19 +106,19 @@ public abstract class AbstractResourceTests {
         bookDto.setId("21271");
         bookDto.setTitle("Unknown title");
 
-        ArrayList<City> cities = new ArrayList<>();
-        City city1 = new City();
-        city1.setName("Young");
-        city1.setLatitude(-32.69844);
-        city1.setLongitude(-57.62693);
+        ArrayList<CityDto> cities = new ArrayList<>();
+        CityDto cityDto1 = new CityDto();
+        cityDto1.setName("Young");
+        cityDto1.setLatitude(-32.69844);
+        cityDto1.setLongitude(-57.62693);
 
-        City city2 = new City();
-        city2.setName("Roses");
-        city2.setLatitude(42.26199);
-        city2.setLongitude(3.17689);
+        CityDto cityDto2 = new CityDto();
+        cityDto2.setName("Roses");
+        cityDto2.setLatitude(42.26199);
+        cityDto2.setLongitude(3.17689);
 
-        cities.add(city1);
-        cities.add(city2);
+        cities.add(cityDto1);
+        cities.add(cityDto2);
         bookDto.setCities(cities);
 
         expectedBooks.add(bookDto);
@@ -147,19 +147,19 @@ public abstract class AbstractResourceTests {
         bookDto.setId("37998");
         bookDto.setTitle("Morals and the Evolution of Man");
 
-        ArrayList<City> cities = new ArrayList<>();
-        City city1 = new City();
-        city1.setName("London");
-        city1.setLatitude(51.50853);
-        city1.setLongitude(-0.12574);
+        ArrayList<CityDto> cities = new ArrayList<>();
+        CityDto cityDto1 = new CityDto();
+        cityDto1.setName("London");
+        cityDto1.setLatitude(51.50853);
+        cityDto1.setLongitude(-0.12574);
 
-        City city2 = new City();
-        city2.setName("Kant");
-        city2.setLatitude(42.89106);
-        city2.setLongitude(74.85077);
+        CityDto cityDto2 = new CityDto();
+        cityDto2.setName("Kant");
+        cityDto2.setLatitude(42.89106);
+        cityDto2.setLongitude(74.85077);
 
-        cities.add(city1);
-        cities.add(city2);
+        cities.add(cityDto1);
+        cities.add(cityDto2);
         bookDto.setCities(cities);
 
         expectedBooks.add(bookDto);
@@ -176,10 +176,10 @@ public abstract class AbstractResourceTests {
         testArray(expectedBooks, result, "Books");
 
         System.out.println(result.get(0).getCities().size());
-        for(City city: result.get(0).getCities()) {
-            System.out.println(city.getName());
-            System.out.println(city.getLatitude());
-            System.out.println(city.getLongitude());
+        for(CityDto cityDto : result.get(0).getCities()) {
+            System.out.println(cityDto.getName());
+            System.out.println(cityDto.getLatitude());
+            System.out.println(cityDto.getLongitude());
         }
 
         for (BookDto book : result) {
