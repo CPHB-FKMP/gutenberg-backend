@@ -4,7 +4,6 @@ import com.fkmp.gutenberg.backend.api.model.BookDto;
 import com.fkmp.gutenberg.backend.exceptions.NotFoundException;
 import com.fkmp.gutenberg.backend.model.neo4j.Book;
 import com.fkmp.gutenberg.backend.repository.Neo4jRepository;
-import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -24,27 +23,28 @@ public class Neo4jBookService implements BookService {
         List<Book> books = null;
         if (params.get("title") != null) {
             books = repository.getCitiesByTitle(params.get("title"));
+            return Neo4jBookMapper.mapWithCities(books);
         }
 
         if (params.get("city") != null) {
             books = repository.getBooksMentioningCity(params.get("city"));
-
+            return Neo4jBookMapper.mapWithAuthors(books);
         }
 
         if (params.get("author") != null) {
             books = repository.getBooksByAuthor(params.get("author"));
+            return Neo4jBookMapper.mapWithCities(books);
         }
 
         if (params.get("lat") != null && params.get("long") != null) {
             Double latitude = Double.parseDouble(params.get("lat"));
             Double longitude = Double.parseDouble(params.get("long"));
             books = repository.getBooksByLocation(latitude, longitude);
+            return Neo4jBookMapper.map(books);
         }
 
-        if (books == null || books.size() == 0) {
-            throw new NotFoundException("Nothing was found. Try querying for something else");
-        }
+        throw new NotFoundException("Query was not valid. Try again");
 
-        return BookMapper.neo4jBooksToBooksDto(books);
+
     }
 }

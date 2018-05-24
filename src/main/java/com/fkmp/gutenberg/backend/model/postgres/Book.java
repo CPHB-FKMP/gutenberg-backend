@@ -1,7 +1,5 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
-import org.jboss.logging.Field;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -25,7 +23,11 @@ import java.util.List;
                 resultSetMapping = "Book.getBooksMapping"
         ),
         @NamedNativeQuery(name = "Book.getBooksByAuthorName",
-                query = "SELECT DISTINCT ON (books.book_id) books.book_id, books.title, cities.location, cities.name FROM books NATURAL JOIN authors_books NATURAL JOIN books_cities NATURAL JOIN cities WHERE author_id IN (SELECT author_id FROM authors WHERE name = :authorName );",
+                query = "SELECT DISTINCT ON (books.book_id) books.book_id, books.title, cities.latitude, cities.longitude, cities.name FROM books NATURAL JOIN authors_books NATURAL JOIN books_cities NATURAL JOIN cities WHERE author_id IN (SELECT author_id FROM authors WHERE name = :authorName );",
+                resultSetMapping = "Book.getBooksMapping"
+        ),
+        @NamedNativeQuery(name = "Book.getBooksByLocation",
+                query = "SELECT DISTINCT ON (books.book_id) title, books.book_id FROM books JOIN books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) GROUP BY (title, books.book_id, cities.latitude, cities.longitude) HAVING geodistance(cities.latitude, cities.longitude, ( :latitude ), ( :longitude )) <= 20;",
                 resultSetMapping = "Book.getBooksMapping"
         )
 })
@@ -38,13 +40,13 @@ public class Book {
 
     private String title;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "authors_books",
                 joinColumns = @JoinColumn(name = "book_id"),
                 inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "books_cities",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id"),
             inverseJoinColumns = {@JoinColumn(name = "latitude", referencedColumnName = "latitude"), @JoinColumn(name = "longitude", referencedColumnName = "longitude")})

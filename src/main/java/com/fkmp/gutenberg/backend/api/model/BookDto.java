@@ -1,13 +1,16 @@
 package com.fkmp.gutenberg.backend.api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDto {
     private String id;
     private String title;
-    private List<Author> authors;
-    private List<City> cities;
+    private List<AuthorDto> authorDtos;
+    private List<CityDto> cities;
 
     public BookDto() {
     }
@@ -16,11 +19,16 @@ public class BookDto {
         this.title = title;
     }
 
-    public BookDto(String id, String title, List<Author> authors, List<City> cities) {
+    public BookDto(String id, String title, List<AuthorDto> authorDtos, List<CityDto> cities) {
         this.id = id;
         this.title = title;
-        this.authors = authors;
+        this.authorDtos = authorDtos;
         this.cities = cities;
+    }
+
+    public BookDto(String id, String title) {
+        this.id = id;
+        this.title = title;
     }
 
     public String getId() {
@@ -39,19 +47,19 @@ public class BookDto {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public List<AuthorDto> getAuthors() {
+        return authorDtos;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+    public void setAuthors(List<AuthorDto> authorDtos) {
+        this.authorDtos = authorDtos;
     }
 
-    public List<City> getCities() {
+    public List<CityDto> getCities() {
         return cities;
     }
 
-    public void setCities(List<City> cities) {
+    public void setCities(List<CityDto> cities) {
         this.cities = cities;
     }
 
