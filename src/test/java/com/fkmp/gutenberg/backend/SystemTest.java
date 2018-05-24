@@ -37,28 +37,29 @@ public class SystemTest {
 
     @BeforeClass
     public static void beforeAll(){
-        System.out.println("BeforeClass");
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
     }
 
     @Before
     public void beforeEach(){
-        System.out.println("Before");
         driver = new ChromeDriver();
         driver.get("http://localhost:8080");
     }
 
     @After
     public void afterEach() {
-        System.out.println("After");
         this.driver.quit();
     }
 
     @Parameterized.Parameters(name = "{index}: testEquals({1} == {2})")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
-                {"Neo4j", "City", "Copenhagen", 3},
-                {"PostGres", "City", "Copenhagen", 3}
+                {"Neo4j", "city", "Copenhagen", 176},
+                {"postGres", "city", "Copenhagen", 176},
+                {"neo4j", "title", "Wildlife", 3},
+                {"postGres", "title", "Wildlife", 3},
+                {"neo4j", "author", "Maxime Provost", 3 },
+                {"PostGres", "author", "Maxime Provost", 3}
         });
     }
 
@@ -77,12 +78,17 @@ public class SystemTest {
         WebElement submit = driver.findElement(By.id("submit"));
         submit.click();
 
-        WebElement tBodyBooks = driver.findElement(By.id("XXX"));
+        WebElement tBodyBooks = driver.findElement(By.id("results"));
 
         List<WebElement> rows = tBodyBooks.findElements(By.tagName("tr"));
 
+        WebElement map = driver.findElement(By.id("map"));
+
         Assertions.assertAll("Checking we get data on the site", () -> {
             Assert.assertEquals(resultSize, rows.size());
+            Assert.assertTrue(map.isDisplayed());
+
         });
+
     }
 }
