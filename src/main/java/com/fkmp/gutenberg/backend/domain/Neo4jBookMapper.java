@@ -11,63 +11,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Neo4jBookMapper {
-    public static List<BookDto> mapWithCities(List<Book> fromBooks) {
+    public static List<BookDto> neo4jBooksToBooksDto(List<Book> fromBooks) {
         List<BookDto> toBooks = new ArrayList<>();
 
+        for (Book fromBook : fromBooks) {
+            BookDto toBook = new BookDto();
+            toBook.setId(fromBook.getId());
+            toBook.setTitle(fromBook.getTitle());
 
-        for (Book book : fromBooks) {
-            List<CityDto> cities = new ArrayList<>();
-            BookDto toBook = mapBookToDto(book);
+            if (fromBook.getAuthors() != null) {
+                List<AuthorDto> authors = new ArrayList<>();
+                for (Author fromAuthor : fromBook.getAuthors()) {
+                    AuthorDto toAuthor = new AuthorDto();
+                    toAuthor.setName(fromAuthor.getName());
+                    authors.add(toAuthor);
+                }
 
-            for (City fromCity : book.getCities()) {
-                cities.add(mapCityToDto(fromCity));
+                toBook.setAuthors(authors);
             }
-            toBook.setCities(cities);
+
+            if (fromBook.getCities() != null) {
+                List<CityDto> cities = new ArrayList<>();
+
+                for (City fromCity : fromBook.getCities()) {
+                    CityDto toCity = new CityDto();
+                    toCity.setName(fromCity.getName());
+                    String[] locations = fromCity.getLocation().split(",");
+                    toCity.setLatitude(Double.parseDouble(locations[0]));
+                    toCity.setLongitude(Double.parseDouble(locations[1]));
+                    cities.add(toCity);
+                }
+
+                toBook.setCities(cities);
+            }
             toBooks.add(toBook);
         }
+
         return toBooks;
-    }
-
-    public static List<BookDto> mapWithAuthors(List<Book> fromBooks) {
-        List<BookDto> toBooks = new ArrayList<>();
-
-
-        for (Book book : fromBooks) {
-            List<AuthorDto> authors = new ArrayList<>();
-            BookDto toBook = mapBookToDto(book);
-
-            for (Author author : book.getAuthors()) {
-                authors.add(mapAuthorToDto(author));
-            }
-            toBook.setAuthors(authors);
-            toBooks.add(toBook);
-        }
-        return toBooks;
-    }
-
-    public static List<BookDto> map(List<Book> fromBooks) {
-        List<BookDto> toBooks = new ArrayList<>();
-        for (Book book : fromBooks) {
-            toBooks.add(mapBookToDto(book));
-        }
-        return toBooks;
-    }
-
-
-    private static BookDto mapBookToDto(Book book) {
-        return new BookDto(book.getId(), book.getTitle());
-    }
-
-    private static CityDto mapCityToDto(City city) {
-        CityDto cityDto = new CityDto();
-        cityDto.setName(city.getName());
-        String[] location = city.getLocation().split(",");
-        cityDto.setLatitude(Double.parseDouble(location[0]));
-        cityDto.setLongitude(Double.parseDouble(location[0]));
-        return cityDto;
-    }
-
-    private static AuthorDto mapAuthorToDto(Author author) {
-        return new AuthorDto(author.getName());
     }
 }
