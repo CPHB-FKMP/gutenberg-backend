@@ -1,15 +1,8 @@
 package com.fkmp.gutenberg.backend;
 
-import com.fkmp.gutenberg.backend.api.model.BookDto;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.annotation.Description;
 import org.springframework.test.context.ActiveProfiles;
-
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 
 @ActiveProfiles(profiles = "itest", inheritProfiles = false)
 public class Neo4JIT extends AbstractResourceTests {
