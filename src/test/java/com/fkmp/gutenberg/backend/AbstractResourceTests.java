@@ -187,6 +187,42 @@ public abstract class AbstractResourceTests {
         }
     }
 
+    protected void booksInVicinityTest(String path) {
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();
+        BookDto bookDto1 = new BookDto();
+        bookDto1.setTitle("My Lady of the Chinese Courtyard");
+        bookDto1.setId("19665");
+
+        BookDto bookDto2 = new BookDto();
+        bookDto2.setTitle("The Return of Peter Grimm Novelised From the Play");
+        bookDto2.setId("24359");
+
+        BookDto bookDto3 = new BookDto();
+        bookDto3.setTitle("Morals and the Evolution of Man");
+        bookDto3.setId("37998");
+
+        BookDto bookDto4 = new BookDto();
+        bookDto4.setTitle("History of the Reformation in the Sixteenth Century, Vol 2");
+        bookDto4.setId("41470");
+
+        expectedBooks.add(bookDto1);
+        expectedBooks.add(bookDto2);
+        expectedBooks.add(bookDto3);
+        expectedBooks.add(bookDto4);
+
+        // Create Parameter for the query and sends a request
+        MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
+        params.putSingle("lat", "51.50853");
+        params.putSingle("long", "-0.12574");
+        Response response = getRequest(path, params).get();
+
+        Assert.assertEquals(200, response.getStatus());
+        // Collect the result from the response
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
+
+        testArray(expectedBooks, result, "Books");
+    }
+
     protected <T> void testArray(List<T> expected, List<T> actual, String entityName) {
         Assertions.assertAll(entityName, () -> {
             Assertions.assertNotNull(actual);

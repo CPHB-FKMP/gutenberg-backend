@@ -23,28 +23,27 @@ public class Neo4jBookService implements BookService {
         List<Book> books = null;
         if (params.get("title") != null) {
             books = repository.getCitiesByTitle(params.get("title"));
-            return Neo4jBookMapper.mapWithCities(books);
         }
 
         if (params.get("city") != null) {
             books = repository.getBooksMentioningCity(params.get("city"));
-            return Neo4jBookMapper.mapWithAuthors(books);
+            System.out.println(books.size());
         }
 
         if (params.get("author") != null) {
             books = repository.getBooksByAuthor(params.get("author"));
-            return Neo4jBookMapper.mapWithCities(books);
         }
 
         if (params.get("lat") != null && params.get("long") != null) {
             Double latitude = Double.parseDouble(params.get("lat"));
             Double longitude = Double.parseDouble(params.get("long"));
             books = repository.getBooksByLocation(latitude, longitude);
-            return Neo4jBookMapper.map(books);
         }
 
-        throw new NotFoundException("Query was not valid. Try again");
+        if (books == null || books.size() == 0) {
+            throw new NotFoundException("Nothing was found. Try querying for something else");
+        }
 
-
+        return Neo4jBookMapper.neo4jBooksToBooksDto(books);
     }
 }
