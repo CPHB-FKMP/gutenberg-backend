@@ -79,8 +79,8 @@ public class SystemTest {
                 )},
                 {"postgres", "title", "The Return of Peter Grimm Novelised From the Play", 2, Arrays.asList(
                         "",
-                        "The Return of Peter Grimm Novelised From the Play David Belasco",
-                        "The Return of Peter Grimm Novelised From the Play David Belasco"
+                        "The Return of Peter Grimm Novelised From the Play",
+                        "The Return of Peter Grimm Novelised From the Play"
                 )},
                 {"neo4j", "author", "Lewis Carroll", 2, Arrays.asList(
                         "",

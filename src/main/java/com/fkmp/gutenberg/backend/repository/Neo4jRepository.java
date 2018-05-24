@@ -22,6 +22,6 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
             "MATCH (l:City) \n" +
             "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) < 20\n" +
             "MATCH (l)-[:CONTAINS]-(book:Book)\n" +
-            "RETURN l")
+            "RETURN book")
     List<Book> getBooksByLocation(@Param("lat") Double latitude, @Param("lon") Double longitude);
 }
