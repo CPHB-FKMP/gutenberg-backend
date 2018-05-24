@@ -9,18 +9,13 @@ import java.util.List;
 
 public interface Neo4jRepository extends CrudRepository<Book, String> {
 
-    /* Kasper og Phillips
-    // MATCH (:City{name:"Copenhagen"})-[:CONTAINS]-(book:Book)-[:WRITTEN_BY]-(author:Author) RETURN book, author
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getBooksMentioningCity(String cityName);
-    */
-    @Query("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: {cityName}}) RETURN book,r,city;")
+    @Query("MATCH (:City{name:{cityName}})<-[:CONTAINS]-(book:Book)-[r:WRITTEN_BY]->(author:Author) RETURN book, r, author;")
     List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
-    @Query("MATCH (:Book{title:{bookTitle}})-[:CONTAINS]-(city:City) RETURN city")
+    @Query("MATCH (b:Book {title: {bookTitle}})-[r:CONTAINS]->(city:City) RETURN b,r,city;")
     List<Book> getCitiesByTitle(@Param("bookTitle") String bookTitle);
 
-    @Query("MATCH (:Author{name:{authorName}})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city")
+    @Query("MATCH (:Author{name:{authorName}})-[:WRITTEN_BY]-(book:Book)-[r:CONTAINS]-(city:City) RETURN book, r, city")
     List<Book> getBooksByAuthor(@Param("authorName") String authorName);
 
     @Query("WITH {lat} AS lat, {lon} AS lon\n" +

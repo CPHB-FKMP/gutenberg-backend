@@ -27,12 +27,14 @@ public class SystemTest {
     String action;
     String search;
     int resultSize;
+    List<String> results;
 
-    public SystemTest(String db, String action, String search, int resultSize) {
+    public SystemTest(String db, String action, String search, int resultSize, List<String> results) {
         this.db = db;
         this.action = action;
         this.search = search;
         this.resultSize = resultSize;
+        this.results = results;
     }
 
 
@@ -56,12 +58,40 @@ public class SystemTest {
     @Parameterized.Parameters(name = "{index}: testEquals({1} == {2})")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
-                {"neo4j", "city", "London", 5},
-                {"postgres", "city", "London", 5},
-                {"neo4j", "title", "The Return of Peter Grimm Novelised From the Play", 2},
-                {"postgres", "title", "The Return of Peter Grimm Novelised From the Play", 2},
-                {"neo4j", "author", "Lewis Carroll", 3},
-                {"postgres", "author", "Lewis Carroll", 3}
+                {"neo4j", "city", "London", 5, Arrays.asList(
+                        "",
+                        "My Lady of the Chinese Courtyard Elizabeth Cooper",
+                        "History of the Reformation in the Sixteenth Century, Vol 2 J. H. Merle D’Aubigne",
+                        "The Return of Peter Grimm Novelised From the Play David Belasco",
+                        "Morals and the Evolution of Man Max Simon Nordau"
+                )},
+                {"postgres", "city", "London", 5, Arrays.asList(
+                        "",
+                        "My Lady of the Chinese Courtyard Elizabeth Cooper",
+                        "History of the Reformation in the Sixteenth Century, Vol 2 J. H. Merle D’Aubigne",
+                        "The Return of Peter Grimm Novelised From the Play David Belasco",
+                        "Morals and the Evolution of Man Max Simon Nordau"
+                )},
+                {"neo4j", "title", "The Return of Peter Grimm Novelised From the Play", 2, Arrays.asList(
+                        "",
+                        "The Return of Peter Grimm Novelised From the Play",
+                        "The Return of Peter Grimm Novelised From the Play"
+                )},
+                {"postgres", "title", "The Return of Peter Grimm Novelised From the Play", 2, Arrays.asList(
+                        "",
+                        "The Return of Peter Grimm Novelised From the Play David Belasco",
+                        "The Return of Peter Grimm Novelised From the Play David Belasco"
+                )},
+                {"neo4j", "author", "Lewis Carroll", 2, Arrays.asList(
+                        "",
+                        "Songs From Alice in Wonderland and Through the Looking-Glass",
+                        "Songs From Alice in Wonderland and Through the Looking-Glass"
+                )},
+                {"postgres", "author", "Lewis Carroll", 2, Arrays.asList(
+                        "",
+                        "Songs From Alice in Wonderland and Through the Looking-Glass",
+                        "Songs From Alice in Wonderland and Through the Looking-Glass"
+                )}
         });
     }
 
@@ -71,33 +101,30 @@ public class SystemTest {
         WebElement textField = driver.findElement(By.id("searchField"));
         textField.sendKeys(search);
         textField.getText();
-        System.out.println("Search : " + search + " - Actual : "+ textField.getText());
 
         Select dbDropdown = new Select(driver.findElement(By.id("dbEndpoint")));
         dbDropdown.selectByValue(db);
-        System.out.println("db : " + db + " - Actual : "+ dbDropdown.getAllSelectedOptions().get(0).getText());
 
         Select actionDropdown = new Select(driver.findElement(By.id("action")));
         actionDropdown.selectByValue(action);
-        System.out.println("action : " + action + " - Actual : "+ actionDropdown.getAllSelectedOptions().get(0).getText());
-
         WebElement submit = driver.findElement(By.id("submit"));
         submit.click();
-        System.out.println("Click");
 
         WebDriverWait wait = new WebDriverWait(driver, new Long(30));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("resultTable")));
 
         WebElement tBodyBooks = driver.findElement(By.id("results"));
-        System.out.println(tBodyBooks.getText());
 
         List<WebElement> rows = tBodyBooks.findElements(By.tagName("tr"));
 
         WebElement map = driver.findElement(By.id("map"));
 
         Assertions.assertAll("Checking we get data on the site", () -> {
-            Assert.assertEquals(resultSize, rows.size());
-            Assert.assertTrue(map.isDisplayed());
+            Assertions.assertEquals(resultSize, rows.size());
+            Assertions.assertTrue(map.isDisplayed());
+            for (int i = 0; i < rows.size(); i++){
+                Assertions.assertEquals(results.get(i), rows.get(i).getText());
+            }
 
         });
 

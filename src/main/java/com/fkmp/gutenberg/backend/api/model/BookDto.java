@@ -1,6 +1,7 @@
 package com.fkmp.gutenberg.backend.api.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BookDto {
     private String id;
@@ -55,19 +56,17 @@ public class BookDto {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!BookDto.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final BookDto other = (BookDto) obj;
-        if (this.id == null || other.title == null) {
-            return false;
-        }
-
-        return this.id.equals(other.id) && this.title.equals(other.title);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) &&
+                Objects.equals(title, bookDto.title);
     }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, title);
+    }
 }

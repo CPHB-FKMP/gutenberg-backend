@@ -1,19 +1,34 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
+import org.jboss.logging.Field;
+
 import javax.persistence.*;
 import java.util.List;
 
-@SqlResultSetMapping(name = "Book.getBooksMapping", entities = @EntityResult(entityClass = Book.class, fields = {
-        @FieldResult(name = "id", column = "book_id"), @FieldResult(name = "title", column = "title")
-}))
+@SqlResultSetMappings({
+    @SqlResultSetMapping(name = "Book.getBooksMapping", entities = @EntityResult(entityClass = Book.class, fields = {
+            @FieldResult(name = "id", column = "book_id"), @FieldResult(name = "title", column = "title")
+    }))
+})
 
-@NamedNativeQueries(
+
+
+
+@Entity
+@NamedNativeQueries({
         @NamedNativeQuery(name = "Book.getBooksMentioningCity",
-                query = "SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books join books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) WHERE cities.name = :cityName ;",
+                query = "SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books NATURAL JOIN books_cities NATURAL JOIN cities WHERE cities.name = :cityName",
+                resultSetMapping = "Book.getBooksMapping"
+        ),
+        @NamedNativeQuery(name = "Book.getCitiesByTitle",
+                query = "SELECT DISTINCT ON (books.book_id) books.book_id, books.title, cities.name, cities.latitude, cities.longitude FROM cities NATURAL JOIN books_cities NATURAL JOIN books WHERE books.title = :bookTitle",
+                resultSetMapping = "Book.getBooksMapping"
+        ),
+        @NamedNativeQuery(name = "Book.getBooksByAuthorName",
+                query = "SELECT DISTINCT ON (books.book_id) books.book_id, books.title, cities.location, cities.name FROM books NATURAL JOIN authors_books NATURAL JOIN books_cities NATURAL JOIN cities WHERE author_id IN (SELECT author_id FROM authors WHERE name = :authorName );",
                 resultSetMapping = "Book.getBooksMapping"
         )
-)
-@Entity
+})
 @Table(name = "books")
 public class Book {
 
@@ -29,10 +44,10 @@ public class Book {
                 inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "books_cities",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = {@JoinColumn(name = "latitude"), @JoinColumn(name = "longitude")})
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id"),
+            inverseJoinColumns = {@JoinColumn(name = "latitude", referencedColumnName = "latitude"), @JoinColumn(name = "longitude", referencedColumnName = "longitude")})
     private List<City> cities;
 
     public Book() {
