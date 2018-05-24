@@ -3,14 +3,12 @@ package com.fkmp.gutenberg.backend;
 import com.fkmp.gutenberg.backend.api.model.BookDto;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
@@ -23,6 +21,8 @@ import javax.ws.rs.core.UriBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -59,7 +59,9 @@ public abstract class AbstractResourceTests {
         Assertions.assertAll("Books", () -> {
             Assertions.assertNotNull(actual);
             Assertions.assertEquals(expected.size(), actual.size());
-            Assertions.assertTrue(actual.containsAll(expected));
+            System.out.println(expected.get(0).getId());
+            System.out.println(actual.get(0).getId());
+            Assert.assertThat(actual, containsInAnyOrder(expected.toArray()));
         });
     }
 

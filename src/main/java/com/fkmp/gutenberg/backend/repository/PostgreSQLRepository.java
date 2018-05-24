@@ -11,8 +11,7 @@ import java.util.List;
 
 public interface PostgreSQLRepository extends CrudRepository<Book, String> {
 
-    @Query(value = "SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books join books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) WHERE cities.name = ?1;", nativeQuery = true)
-    List<Book> getBooksMentioningCity(String cityName);
+    List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
     @Query(value = "SELECT name FROM cities JOIN books_cities ON (cities.latitude = books_cities.latitude AND cities.longitude = books_cities.longitude) JOIN books ON (books.book_id = books_cities.book_id) WHERE books.title = ?1;", nativeQuery = true)
     List<Book> getCitiesByTitle(String bookTitle);
