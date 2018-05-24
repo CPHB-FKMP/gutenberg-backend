@@ -17,10 +17,10 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
     @Query("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: {cityName}}) RETURN book,r,city;")
     List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
-    @Query("MATCH (:Book{title:{bookTitle})-[:CONTAINS]-(city:City) RETURN city")
+    @Query("MATCH (:Book{title:{bookTitle}})-[:CONTAINS]-(city:City) RETURN city")
     List<Book> getCitiesByTitle(@Param("bookTitle") String bookTitle);
 
-    @Query("MATCH (:Author{name:{authorName})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city")
+    @Query("MATCH (:Author{name:{authorName}})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city")
     List<Book> getBooksByAuthor(@Param("authorName") String authorName);
 
     @Query("WITH {lat} AS lat, {lon} AS lon\n" +
