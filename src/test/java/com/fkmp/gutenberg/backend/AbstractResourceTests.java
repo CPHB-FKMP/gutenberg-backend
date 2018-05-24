@@ -94,7 +94,9 @@ public abstract class AbstractResourceTests {
 
         Assert.assertTrue(!result.get(0).getAuthors().isEmpty());
 
-        testArray(expectedBooks, result);
+        System.out.println(result.get(0).getAuthors().size());
+        testArray(expectedBooks, result, "Books");
+
     }
 
     protected void getBooksOnTitleTest(String path) {
@@ -107,13 +109,17 @@ public abstract class AbstractResourceTests {
         ArrayList<City> cities = new ArrayList<>();
         City city1 = new City();
         city1.setName("Young");
-        city1.setLatitude("-32.698440");
-        city1.setLongitude("-57.626930");
+        city1.setLatitude(-32.69844);
+        city1.setLongitude(-57.62693);
 
         City city2 = new City();
         city2.setName("Roses");
-        city2.setLatitude("42.261990");
-        city2.setLongitude("3.176890");
+        city2.setLatitude(42.26199);
+        city2.setLongitude(3.17689);
+
+        cities.add(city1);
+        cities.add(city2);
+        bookDto.setCities(cities);
 
         expectedBooks.add(bookDto);
 
@@ -127,11 +133,62 @@ public abstract class AbstractResourceTests {
         // Collect the result from the response
         ArrayList<BookDto> result = response.readEntity(BookList.class);
 
-        testArray(expectedBooks, result);
+        testArray(expectedBooks, result, "Books");
+
+        for (BookDto book : result) {
+            testArray(cities, book.getCities(), "Cities");
+        }
     }
 
-    protected <T> void testArray(ArrayList<T> expected, ArrayList<T> actual) {
-        Assertions.assertAll("Books", () -> {
+    protected void getBooksOnAuthorTest(String path) {
+        // Expected book list
+        ArrayList<BookDto> expectedBooks = new ArrayList<>();;
+        BookDto bookDto = new BookDto();
+        bookDto.setId("37998");
+        bookDto.setTitle("Morals and the Evolution of Man");
+
+        ArrayList<City> cities = new ArrayList<>();
+        City city1 = new City();
+        city1.setName("London");
+        city1.setLatitude(51.50853);
+        city1.setLongitude(-0.12574);
+
+        City city2 = new City();
+        city2.setName("Kant");
+        city2.setLatitude(42.89106);
+        city2.setLongitude(74.85077);
+
+        cities.add(city1);
+        cities.add(city2);
+        bookDto.setCities(cities);
+
+        expectedBooks.add(bookDto);
+
+        // Create Parameter for the query and sends a request
+        MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
+        params.putSingle("author", "Max Simon Nordau");
+        Response response = getRequest(path, params).get();
+
+        Assert.assertEquals(200, response.getStatus());
+        // Collect the result from the response
+        ArrayList<BookDto> result = response.readEntity(BookList.class);
+
+        testArray(expectedBooks, result, "Books");
+
+        System.out.println(result.get(0).getCities().size());
+        for(City city: result.get(0).getCities()) {
+            System.out.println(city.getName());
+            System.out.println(city.getLatitude());
+            System.out.println(city.getLongitude());
+        }
+
+        for (BookDto book : result) {
+            testArray(cities, book.getCities(), "Cities");
+        }
+    }
+
+    protected <T> void testArray(List<T> expected, List<T> actual, String entityName) {
+        Assertions.assertAll(entityName, () -> {
             Assertions.assertNotNull(actual);
             Assertions.assertEquals(expected.size(), actual.size());
             assertThat(actual, containsInAnyOrder(expected.toArray()));

@@ -31,20 +31,7 @@ public class Neo4JIT extends AbstractResourceTests {
     @Test
     @Description("Returns all books on the given author")
     public void getBooksOnAuthor(){
-        // Expected book list
-        ArrayList<BookDto> expectedBooks = new ArrayList<>();;
-        expectedBooks.add(new BookDto());
-
-        // Create Parameter for the query and sends a request
-        MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("author", "XXXX");
-        Response response = getRequest("/neo4j/book", params).get();
-
-        // Collect the result from the response
-        ArrayList<BookDto> result = response.readEntity(BookList.class);
-
-        testArray(expectedBooks, result);
-
+        getBooksOnAuthorTest(PATH);
     }
 
     @Test
@@ -63,6 +50,6 @@ public class Neo4JIT extends AbstractResourceTests {
         // Collect the result from the response
         ArrayList<BookDto> result = response.readEntity(BookList.class);
 
-        testArray(expectedBooks, result);
+        testArray(expectedBooks, result, "Books");
     }
 }

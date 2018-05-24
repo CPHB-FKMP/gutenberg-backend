@@ -36,8 +36,8 @@ public class BookMapper {
                     com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
                     toCity.setName(fromCity.getName());
                     String[] locations = fromCity.getLocation().split(",");
-                    toCity.setLatitude(locations[0]);
-                    toCity.setLongitude(locations[1]);
+                    toCity.setLatitude(Double.parseDouble(locations[0]));
+                    toCity.setLongitude(Double.parseDouble(locations[1]));
                     cities.add(toCity);
                 }
 
@@ -72,8 +72,8 @@ public class BookMapper {
                 for (com.fkmp.gutenberg.backend.model.postgres.City fromCity : fromBook.getCities()) {
                     com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
                     toCity.setName(fromCity.getName());
-                    toCity.setLatitude(Double.toString(fromCity.getLatitude()));
-                    toCity.setLongitude(Double.toString(fromCity.getLongitude()));
+                    toCity.setLatitude(fromCity.getLatitude());
+                    toCity.setLongitude(fromCity.getLongitude());
 //                    toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
 //                    toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
                     cities.add(toCity);
