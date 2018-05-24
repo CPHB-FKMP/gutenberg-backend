@@ -9,14 +9,19 @@ import java.util.List;
 
 public interface Neo4jRepository extends CrudRepository<Book, String> {
 
+    /* Kasper og Phillips
+    // MATCH (:City{name:"Copenhagen"})-[:CONTAINS]-(book:Book)-[:WRITTEN_BY]-(author:Author) RETURN book, author
+    @Query("MATCH (n:Book) RETURN n LIMIT 10")
+    List<Book> getBooksMentioningCity(String cityName);
+    */
     @Query("MATCH (book:Book)-[:CONTAINS]->(city:City {name: {cityName}}) RETURN book LIMIT 1;")
     List<Book> getBooksMentioningCity(@Param("cityName") String cityName);
 
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getCitiesByTitle(String bookTitle);
+    @Query("MATCH (:Book{title:{bookTitle})-[:CONTAINS]-(city:City) RETURN city")
+    List<Book> getCitiesByTitle(@Param("bookTitle") String bookTitle);
 
-    @Query("MATCH (n:Book) RETURN n LIMIT 10")
-    List<Book> getBooksByAuthor(String authorName);
+    @Query("MATCH (:Author{name:{authorName})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city")
+    List<Book> getBooksByAuthor(@Param("authorName") String authorName);
 
     @Query("WITH {lat} AS lat, {lon} AS lon\n" +
             "MATCH (l:City) \n" +
