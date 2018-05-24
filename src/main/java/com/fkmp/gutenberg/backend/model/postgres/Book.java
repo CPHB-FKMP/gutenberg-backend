@@ -3,6 +3,16 @@ package com.fkmp.gutenberg.backend.model.postgres;
 import javax.persistence.*;
 import java.util.List;
 
+@SqlResultSetMapping(name = "Book.getBooksMapping", entities = @EntityResult(entityClass = Book.class, fields = {
+        @FieldResult(name = "id", column = "book_id"), @FieldResult(name = "title", column = "title")
+}))
+
+@NamedNativeQueries(
+        @NamedNativeQuery(name = "Book.getBooksMentioningCity",
+                query = "SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books join books_cities ON (books.book_id = books_cities.book_id) JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) WHERE cities.name = :cityName ;",
+                resultSetMapping = "Book.getBooksMapping"
+        )
+)
 @Entity
 @Table(name = "books")
 public class Book {

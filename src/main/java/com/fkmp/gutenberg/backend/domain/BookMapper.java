@@ -35,8 +35,9 @@ public class BookMapper {
                 for (City fromCity : fromBook.getCities()) {
                     com.fkmp.gutenberg.backend.api.model.City toCity = new com.fkmp.gutenberg.backend.api.model.City();
                     toCity.setName(fromCity.getName());
-                    toCity.setLatitude(Double.toString(fromCity.getLocation().getX()));
-                    toCity.setLongitude(Double.toString(fromCity.getLocation().getY()));
+                    String[] locations = fromCity.getLocation().split(",");
+                    toCity.setLatitude(locations[0]);
+                    toCity.setLongitude(locations[1]);
                     cities.add(toCity);
                 }
 

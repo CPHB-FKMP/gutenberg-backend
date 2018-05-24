@@ -1,6 +1,7 @@
 package com.fkmp.gutenberg.backend;
 
 import com.fkmp.gutenberg.backend.api.model.BookDto;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,9 +26,10 @@ public class PostgresIT extends AbstractResourceTests {
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("city", "Copenhagen");
+        params.putSingle("city", "London");
         Response response = getRequest("/postgres/book", params).get();
 
+        Assert.assertEquals(200, response.getStatus());
         // Collect the result from the response
         ArrayList<BookDto> result = response.readEntity(BookList.class);
 
@@ -44,7 +46,7 @@ public class PostgresIT extends AbstractResourceTests {
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("title", "XXXX");
+        params.putSingle("title", "Unknown title");
         Response response = getRequest("/postgres/book", params).get();
 
         // Collect the result from the response
@@ -81,7 +83,7 @@ public class PostgresIT extends AbstractResourceTests {
 
         // Create Parameter for the query and sends a request
         MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-        params.putSingle("lat", "XXXX");
+        params.putSingle("lat", "");
         params.putSingle("long", "XXXX");
         Response response = getRequest("/postgres/book", params).get();
 

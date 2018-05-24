@@ -27,8 +27,7 @@ public class Neo4jBookService implements BookService {
         }
 
         if (params.get("city") != null) {
-            // books = repository.getBooksMentioningCity(params.get("city"));
-            books = repository.getAll();
+            books = repository.getBooksMentioningCity(params.get("city"));
 
         }
 
@@ -39,7 +38,7 @@ public class Neo4jBookService implements BookService {
         if (params.get("lat") != null && params.get("long") != null) {
             Double latitude = Double.parseDouble(params.get("lat"));
             Double longitude = Double.parseDouble(params.get("long"));
-            books = repository.getBooksByLocation(new Point(latitude, longitude));
+            books = repository.getBooksByLocation(latitude, longitude);
         }
 
         if (books == null || books.size() == 0) {
