@@ -18,10 +18,10 @@ public interface Neo4jRepository extends CrudRepository<Book, String> {
     @Query("MATCH (:Author{name:{authorName}})-[:WRITTEN_BY]-(book:Book)-[r:CONTAINS]-(city:City) RETURN book, r, city")
     List<Book> getBooksByAuthor(@Param("authorName") String authorName);
 
-    @Query("WITH {lat} AS lat, {lon} AS lon\n" +
-            "MATCH (l:City) \n" +
-            "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) < 20\n" +
-            "MATCH (l)-[:CONTAINS]-(book:Book)\n" +
+    @Query("WITH {lat} AS lat, {lon} AS lon " +
+            "MATCH (l:City) " +
+            "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) <= 20 " +
+            "MATCH (l)-[:CONTAINS]-(book:Book) " +
             "RETURN book")
     List<Book> getBooksByLocation(@Param("lat") Double latitude, @Param("lon") Double longitude);
 }

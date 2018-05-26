@@ -1,9 +1,7 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "authors")

@@ -11,16 +11,14 @@ import org.openqa.selenium.support.ui.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.junit.runners.Parameterized;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-@SpringBootTest(classes = BackendApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(profiles = "frontend", inheritProfiles = false)
-public class SystemTest {
+public class SystemTest extends AbstractResourceTests{
 
     static WebDriver driver;
     String db;
@@ -98,15 +96,9 @@ public class SystemTest {
 
     @Test
     public void givenCityNameTest() {
-        WebElement textField = driver.findElement(By.id("searchField"));
-        textField.sendKeys(search);
-        textField.getText();
 
-        Select dbDropdown = new Select(driver.findElement(By.id("dbEndpoint")));
-        dbDropdown.selectByValue(db);
+        inputDataFrontend(driver, search, db, action);
 
-        Select actionDropdown = new Select(driver.findElement(By.id("action")));
-        actionDropdown.selectByValue(action);
         WebElement submit = driver.findElement(By.id("submit"));
         submit.click();
 
@@ -122,10 +114,6 @@ public class SystemTest {
         Assertions.assertAll("Checking we get data on the site", () -> {
             Assertions.assertEquals(resultSize, rows.size());
             Assertions.assertTrue(map.isDisplayed());
-            for (int i = 0; i < rows.size(); i++){
-                Assertions.assertEquals(results.get(i), rows.get(i).getText());
-            }
-
         });
 
     }

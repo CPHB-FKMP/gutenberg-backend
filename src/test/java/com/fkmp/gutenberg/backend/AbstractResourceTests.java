@@ -7,6 +7,10 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
@@ -45,12 +49,20 @@ public abstract class AbstractResourceTests {
         client = ClientBuilder.newClient(config);
     }
 
-    protected String getUri(String path) {
+    protected String getUri(String path, int port) {
         return UriBuilder.fromPath(path).port(port).host("localhost").scheme("http").build().toString();
     }
 
+    protected String getUri(String path) {
+        return getUri(path, this.port);
+    }
+
     protected Invocation.Builder getRequest(String path, MultivaluedMap<String, String> queryParams) {
-        WebTarget t = client.target(getUri(path));
+        return getRequest(path, queryParams, this.port);
+    }
+
+    protected Invocation.Builder getRequest(String path, MultivaluedMap<String, String> queryParams, int port) {
+        WebTarget t = client.target(getUri(path, port));
         if (queryParams != null) {
             for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
                 t = t.queryParam(entry.getKey(), entry.getValue().toArray());
@@ -229,6 +241,18 @@ public abstract class AbstractResourceTests {
             Assertions.assertEquals(expected.size(), actual.size());
             assertThat(actual, containsInAnyOrder(expected.toArray()));
         });
+    }
+
+    protected void inputDataFrontend(WebDriver driver, String search, String db, String action){
+        WebElement textField = driver.findElement(By.id("searchField"));
+        textField.sendKeys(search);
+        textField.getText();
+
+        Select dbDropdown = new Select(driver.findElement(By.id("dbEndpoint")));
+        dbDropdown.selectByValue(db);
+
+        Select actionDropdown = new Select(driver.findElement(By.id("action")));
+        actionDropdown.selectByValue(action);
     }
 
     public static final class BookList extends ArrayList<BookDto> {

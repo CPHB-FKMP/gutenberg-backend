@@ -1,7 +1,13 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.jboss.logging.Field;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @SqlResultSetMappings({
     @SqlResultSetMapping(name = "Book.getBooksMapping", entities = @EntityResult(entityClass = Book.class, fields = {
@@ -11,13 +17,8 @@ import java.util.List;
 
 
 
-
 @Entity
 @NamedNativeQueries({
-        @NamedNativeQuery(name = "Book.getBooksMentioningCity",
-                query = "SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books NATURAL JOIN books_cities NATURAL JOIN cities WHERE cities.name = :cityName",
-                resultSetMapping = "Book.getBooksMapping"
-        ),
         @NamedNativeQuery(name = "Book.getCitiesByTitle",
                 query = "SELECT DISTINCT ON (books.book_id) books.book_id, books.title, cities.name, cities.latitude, cities.longitude FROM cities NATURAL JOIN books_cities NATURAL JOIN books WHERE books.title = :bookTitle",
                 resultSetMapping = "Book.getBooksMapping"
@@ -40,17 +41,18 @@ public class Book {
 
     private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "authors_books",
                 joinColumns = @JoinColumn(name = "book_id"),
                 inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
+    private Set<Author> authors;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @LazyCollection(value = LazyCollectionOption.TRUE)
     @JoinTable(name = "books_cities",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id"),
             inverseJoinColumns = {@JoinColumn(name = "latitude", referencedColumnName = "latitude"), @JoinColumn(name = "longitude", referencedColumnName = "longitude")})
-    private List<City> cities;
+    private Set<City> cities;
 
     public Book() {
     }
@@ -71,19 +73,19 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 
-    public List<City> getCities() {
+    public Set<City> getCities() {
         return cities;
     }
 
-    public void setCities(List<City> cities) {
+    public void setCities(Set<City> cities) {
         this.cities = cities;
     }
 }
