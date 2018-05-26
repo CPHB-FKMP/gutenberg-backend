@@ -36,10 +36,12 @@ public class PostgresBookMapper {
             List<AuthorDto> authors = new ArrayList<>();
             BookDto toBook = mapBookToDto(book);
 
-            for (Author author : book.getAuthors()) {
-                authors.add(mapAuthorToDto(author));
+            if (book.getAuthors() != null) {
+                book.getAuthors().forEach(author -> {
+                    authors.add(mapAuthorToDto(author));
+                });
+                toBook.setAuthors(authors);
             }
-            toBook.setAuthors(authors);
             toBooks.add(toBook);
         }
         return toBooks;

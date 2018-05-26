@@ -1,9 +1,8 @@
 package com.fkmp.gutenberg.backend.model.postgres;
 
-import org.springframework.data.geo.Point;
-
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "cities")
@@ -16,7 +15,6 @@ public class City implements Serializable {
 
     @Id
     private Double longitude;
-
 
     public City() {
     }

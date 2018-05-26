@@ -6,6 +6,8 @@ import com.fkmp.gutenberg.backend.api.model.CityDto;
 import com.fkmp.gutenberg.backend.exceptions.NotFoundException;
 import com.fkmp.gutenberg.backend.model.postgres.Book;
 import com.fkmp.gutenberg.backend.repository.PostgreSQLRepository;
+import com.fkmp.gutenberg.backend.repository.Repo;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
