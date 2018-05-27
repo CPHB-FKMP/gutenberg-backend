@@ -258,4 +258,19 @@ public abstract class AbstractResourceTests {
     public static final class BookList extends ArrayList<BookDto> {
         private static final long serialVersionUID = 1L;
     }
+
+    public Double getAverage(List<Double> timetable) {
+        Double avg = 0.0;
+        for (int i = 0; i < timetable.size(); i++) {
+            avg += timetable.get(i);
+        }
+
+        return avg / timetable.size();
+    }
+
+    public Double getMedian(List<Double> timetable) {
+        int median = timetable.size() / 2;
+        median = median % 2 == 0 ? median - 1 : median;
+        return timetable.get(median);
+    }
 }
