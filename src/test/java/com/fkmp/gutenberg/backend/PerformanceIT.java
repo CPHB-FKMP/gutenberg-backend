@@ -20,15 +20,14 @@ public class PerformanceIT extends AbstractResourceTests {
     String path;
     int port;
     List<Double> list;
-    int times;
+    int times = 10;
     String param;
     String value;
 
-    public PerformanceIT(String path, int port, List<Double> list, int times, String param, String value) {
+    public PerformanceIT(String path, int port, List<Double> list, String param, String value) {
         this.path = path;
         this.port = port;
         this.list = list;
-        this.times = times;
         this.param = param;
         this.value = value;
     }
@@ -36,36 +35,36 @@ public class PerformanceIT extends AbstractResourceTests {
     @Parameterized.Parameters(name = "{index}: testEquals({0})")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "city", "Copenhagen"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "city", "Greve"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "city", "London"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "city", "Milton"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "city", "Venice"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "title", "War in the Garden of Eden"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "title", "La Boheme"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "title", "Social Value A Study in Economic Theory Critical and Constructive"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "title", "North America"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "title", "Hesiod, The Homeric Hymns, and Homerica"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "author", "Georgiana Cavendish"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "author", "Lilian Garis"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "author", "Maxime Provost"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "author", "James Cook"},
-                {"/postgres/book", 8081, new ArrayList<>(), 5, "author", "Kermit Roosevelt"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "city", "Copenhagen"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "city", "Greve"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "city", "London"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "city", "Milton"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "city", "Venice"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "title", "War in the Garden of Eden"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "title", "La Boheme"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "title", "Social Value A Study in Economic Theory Critical and Constructive"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "title", "North America"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "title", "Hesiod, The Homeric Hymns, and Homerica"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "author", "Georgiana Cavendish"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "author", "Lilian Garis"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "author", "Maxime Provost"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "author", "James Cook"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 5, "author", "Kermit Roosevelt"}
+                {"/postgres/book", 8081, new ArrayList<>(), "city", "Copenhagen"},
+                {"/postgres/book", 8081, new ArrayList<>(), "city", "Greve"},
+                {"/postgres/book", 8081, new ArrayList<>(), "city", "London"},
+                {"/postgres/book", 8081, new ArrayList<>(),  "city", "Milton"},
+                {"/postgres/book", 8081, new ArrayList<>(),  "city", "Venice"},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", "War in the Garden of Eden"},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", "La Boheme"},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", "Social Value A Study in Economic Theory Critical and Constructive"},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", "North America"},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", "Hesiod, The Homeric Hymns, and Homerica"},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", "Georgiana Cavendish"},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", "Lilian Garis"},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", "Maxime Provost"},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", "James Cook"},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", "Kermit Roosevelt"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Copenhagen"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Greve"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", "London"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Milton"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Venice"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", "War in the Garden of Eden"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", "La Boheme"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", "Social Value A Study in Economic Theory Critical and Constructive"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", "North America"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", "Hesiod, The Homeric Hymns, and Homerica"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Georgiana Cavendish"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Lilian Garis"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Maxime Provost"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", "James Cook"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Kermit Roosevelt"}
         });
     }
 
@@ -94,7 +93,6 @@ public class PerformanceIT extends AbstractResourceTests {
             long endTime = System.nanoTime() - startTime;
             double totalTime = ((double) endTime / 1000000000.0);
             list.add(totalTime);
-            System.out.println(totalTime);
 
             ArrayList<BookDto> result = response.readEntity(BookList.class);
             Assertions.assertAll("Must be done in order to know there where data", () -> {
