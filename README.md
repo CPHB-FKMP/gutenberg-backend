@@ -1,5 +1,31 @@
 # Gutenberg Project - Database
 Made by Florent Haxha, Kasper Vetter, Mikkel Jensen & Phillip Brink
+## What this project is
+This is a project where you can search for books. These are the following criteria you can search for:
+- A city name: this will give you all the books mentioning this city
+- An author: this will give you all books written by that author
+- A book title: this will give you the book and all of the cities mentioned in it
+- A geolocation: this will give you all books in a 20km radius of that location
+
+This project is only the REST API. The frontend can be found here: https://github.com/CPHB-FKMP/gutenberg-frontend/releases/tag/1.0.0
+
+How to get the complete project up and running:
+
+Prerequisites:
+- Some kind of http server for the frontend
+- Java 8
+- Maven
+
+How to run: 
+1. Clone this project
+2. Clone this project: https://github.com/CPHB-FKMP/gutenberg-frontend
+3. Run `docker pull aaxa/gutenberg-postgresql`
+4. Follow the guide there to import the data
+5. Run `docker pull aaxa/gutenberg-neo4j`
+6. Follow the guide there to import the data
+7. Run `mvn spring-boot:run -DskipTests` to run the backend project
+8. Run the frontend project and you should be good to go!
+
 ## Database engines
 ### Neo4j
 We decided to use Neo4j because we liked the way the cypher query language looks and works. When using a graph database we also have an ability to filter out data while you are writing your query. If you follow a relation from one node, you only get the data back that is coming from that relation. The queries was also much easier to read and understand compared to queries in a relational database. We were surprised of how easy it was to use and wanted to explore the potential of a graph database further.
@@ -40,7 +66,7 @@ Our application is created with Java. We have created three entities which are â
 ## How the data is imported.
 The data is imported by first running a Python script to extract all the data from the text files from project Gutenberg. This is done with regexes and some filtering on specific words. 
 
-The script can be found here: https://github.com/CPHB-FKMP/book-extractor. 
+The script can be found here: https://github.com/CPHB-FKMP/book-extractor/releases/tag/1.0.0. 
 
 After the script is done running, we ended up with 5 csv files for each database. The reason we chose to go with different files for each database was, that Neo4j has some smart mapping of IDâ€™s if annotated correctly in the csv file, thus making the import much easier. 
 
