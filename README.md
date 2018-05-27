@@ -7,7 +7,7 @@ This is a project where you can search for books. These are the following criter
 - A book title: this will give you the book and all of the cities mentioned in it
 - A geolocation: this will give you all books in a 20km radius of that location
 
-This project is only the REST API. The frontend can be found here: https://github.com/CPHB-FKMP/gutenberg-frontend/releases/tag/1.0.0
+This project is only the REST API. The frontend can be found here: https://github.com/CPHB-FKMP/gutenberg-frontend/releases/tag/1.0.1
 
 How to get the complete project up and running:
 
