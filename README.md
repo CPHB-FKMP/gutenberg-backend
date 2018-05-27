@@ -79,12 +79,16 @@ The first image is our own native query execution plan, and the second is JPQL.
 
 To compare the results through our application and directly benchmarked on the database, we have conducted tests on both sides. One through HTTP and one directly through the driver for Java without object mapping or HTTP requests. What we see is that Neo4j is falling a bit behind when calling it through the API. It’s still the fastest in most cases, but in some of the more expensive operations it’s sometimes slower or the same as PostgreSQL.
 
+Neo4j benchmarks:
 ![neo4j benchmark](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/Neo4jBenchmark.png)
 
+Neo4j application performance:
 ![neo4j performance](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/neo4j-performance.png)
 
+PostgreSQL benchmarks:
 ![postgres benchmark](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/PostgresBenchmark.png)
 
+PostgreSQL application performance:
 ![postgres performance](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/postgres-performance.png)
  
 We’re certain that the reason for the huge gap in performance on some operations lie within the mapping of the objects. We had some issues with PostgreSQL and the mapping from native queries, which makes PostgreSQL a lot slower. When querying with a city name, we see approximately the same results, while Neo4j is generally faster in all other cases. This also means that we’re seeing contradicting results. Our benchmarks are telling us that Neo4j is the clear winner here, while our performance tests through the application tells us it’s a much closer race.
