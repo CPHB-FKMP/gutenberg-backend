@@ -20,9 +20,9 @@ How to run:
 1. Clone this project
 2. Clone this project: https://github.com/CPHB-FKMP/gutenberg-frontend
 3. Run `docker pull aaxa/gutenberg-postgresql`
-4. Follow the guide there to import the data
+4. Follow the guide here: https://hub.docker.com/r/aaxa/gutenberg-postgresql/ to import the data
 5. Run `docker pull aaxa/gutenberg-neo4j`
-6. Follow the guide there to import the data
+6. Follow the guide here: https://hub.docker.com/r/aaxa/gutenberg-neo4j/ to import the data
 7. Run `mvn spring-boot:run -DskipTests` to run the backend project
 8. Run the frontend project and you should be good to go!
 
