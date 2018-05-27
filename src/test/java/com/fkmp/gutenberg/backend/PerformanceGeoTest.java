@@ -53,12 +53,12 @@ public class PerformanceGeoTest extends AbstractResourceTests {
 
     @Before
     public void setUp() {
-
+        System.out.println("---------------------" + path + "-------------------------------");
     }
 
     @After
     public void tearDown() {
-        System.out.println(lat + " : " + lng);
+        System.out.println(path);
         System.out.println("Average : " + getAverage(list));
         System.out.println("Median : " + getMedian(list));
 
@@ -75,7 +75,7 @@ public class PerformanceGeoTest extends AbstractResourceTests {
             long startTime = System.nanoTime();
             Response response = getRequest(path, params, port).get();
             long endTime = System.nanoTime() - startTime;
-            double totalTime = ((double) endTime / 1000000000.0);
+            double totalTime = ((double) endTime / 1000000.0);
             list.add(totalTime);
             System.out.println(totalTime);
 

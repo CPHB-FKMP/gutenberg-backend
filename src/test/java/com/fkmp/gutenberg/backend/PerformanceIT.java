@@ -70,11 +70,12 @@ public class PerformanceIT extends AbstractResourceTests {
 
     @Before
     public void setUp() {
-
+        System.out.println("---------------------" + path + "-------------------------------");
     }
 
     @After
     public void tearDown() {
+        System.out.println(path);
         System.out.println(param + " : " + value);
         System.out.println("Average : " + getAverage(list));
         System.out.println("Median : " + getMedian(list));
