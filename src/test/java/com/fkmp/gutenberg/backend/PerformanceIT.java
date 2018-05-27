@@ -90,7 +90,7 @@ public class PerformanceIT extends AbstractResourceTests {
             long startTime = System.nanoTime();
             Response response = getRequest(path, params, port).get();
             long endTime = System.nanoTime() - startTime;
-            double totalTime = ((double) endTime / 1000000000.0);
+            double totalTime = ((double) endTime / 1000000.0);
             list.add(totalTime);
 
             ArrayList<BookDto> result = response.readEntity(BookList.class);
