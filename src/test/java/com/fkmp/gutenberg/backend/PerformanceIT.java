@@ -22,49 +22,30 @@ public class PerformanceIT extends AbstractResourceTests {
     List<Double> list;
     int times = 10;
     String param;
-    String value;
+    String[] values;
 
-    public PerformanceIT(String path, int port, List<Double> list, String param, String value) {
+    public PerformanceIT(String path, int port, List<Double> list, String param, String... values) {
         this.path = path;
         this.port = port;
         this.list = list;
         this.param = param;
-        this.value = value;
+        this.values = values;
     }
 
     @Parameterized.Parameters(name = "{index} - {0} : Parameter({3} == {4})")
     public static Collection<Object[]> data(){
+        String[] cities = {"Copenhagen", "Greve", "London", "Milton", "Venice"};
+        String[] titles = {"War in the Garden of Eden", "La Boheme",
+                "Social Value A Study in Economic Theory Critical and Constructive",
+                "North America", "Hesiod, The Homeric Hymns, and Homerica"};
+        String[] authors = {"Georgiana Cavendish", "Lilian Garis", "Maxime Provost", "James Cook", "Kermit Roosevelt"};
         return Arrays.asList(new Object[][]{
-                {"/postgres/book", 8081, new ArrayList<>(), "city", "Copenhagen"},
-                {"/postgres/book", 8081, new ArrayList<>(), "city", "Greve"},
-                {"/postgres/book", 8081, new ArrayList<>(), "city", "London"},
-                {"/postgres/book", 8081, new ArrayList<>(),  "city", "Milton"},
-                {"/postgres/book", 8081, new ArrayList<>(),  "city", "Venice"},
-                {"/postgres/book", 8081, new ArrayList<>(), "title", "War in the Garden of Eden"},
-                {"/postgres/book", 8081, new ArrayList<>(), "title", "La Boheme"},
-                {"/postgres/book", 8081, new ArrayList<>(), "title", "Social Value A Study in Economic Theory Critical and Constructive"},
-                {"/postgres/book", 8081, new ArrayList<>(), "title", "North America"},
-                {"/postgres/book", 8081, new ArrayList<>(), "title", "Hesiod, The Homeric Hymns, and Homerica"},
-                {"/postgres/book", 8081, new ArrayList<>(), "author", "Georgiana Cavendish"},
-                {"/postgres/book", 8081, new ArrayList<>(), "author", "Lilian Garis"},
-                {"/postgres/book", 8081, new ArrayList<>(), "author", "Maxime Provost"},
-                {"/postgres/book", 8081, new ArrayList<>(), "author", "James Cook"},
-                {"/postgres/book", 8081, new ArrayList<>(), "author", "Kermit Roosevelt"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Copenhagen"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Greve"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "city", "London"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Milton"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "city", "Venice"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "title", "War in the Garden of Eden"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "title", "La Boheme"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "title", "Social Value A Study in Economic Theory Critical and Constructive"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "title", "North America"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "title", "Hesiod, The Homeric Hymns, and Homerica"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Georgiana Cavendish"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Lilian Garis"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Maxime Provost"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "author", "James Cook"},
-                {"/neo4j/book", 8081, new ArrayList<>(), "author", "Kermit Roosevelt"}
+                {"/postgres/book", 8081, new ArrayList<>(), "city", cities},
+                {"/postgres/book", 8081, new ArrayList<>(), "title", titles},
+                {"/postgres/book", 8081, new ArrayList<>(), "author", authors},
+                {"/neo4j/book", 8081, new ArrayList<>(), "city", cities},
+                {"/neo4j/book", 8081, new ArrayList<>(), "title", titles},
+                {"/neo4j/book", 8081, new ArrayList<>(), "author", authors}
         });
     }
 
@@ -76,7 +57,7 @@ public class PerformanceIT extends AbstractResourceTests {
     @After
     public void tearDown() {
         System.out.println(path);
-        System.out.println(param + " : " + value);
+        System.out.println(param);
         System.out.println("Average : " + getAverage(list));
         System.out.println("Median : " + getMedian(list));
 
@@ -84,21 +65,23 @@ public class PerformanceIT extends AbstractResourceTests {
 
     @Test
     public void getData(){
-        for (int i = 0; i < times; i++) {
-            MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-            params.putSingle(param, value);
+        for(String value : values) {
+            for (int i = 0; i < times; i++) {
+                MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
+                params.putSingle(param, value);
 
-            long startTime = System.nanoTime();
-            Response response = getRequest(path, params, port).get();
-            long endTime = System.nanoTime() - startTime;
-            double totalTime = ((double) endTime / 1000000.0);
-            list.add(totalTime);
+                long startTime = System.nanoTime();
+                Response response = getRequest(path, params, port).get();
+                long endTime = System.nanoTime() - startTime;
+                double totalTime = ((double) endTime / 1000000.0);
+                list.add(totalTime);
 
-            ArrayList<BookDto> result = response.readEntity(BookList.class);
-            Assertions.assertAll("Must be done in order to know there where data", () -> {
-                Assertions.assertEquals(200, response.getStatus());
-                Assertions.assertTrue(!result.isEmpty());
-            });
+                ArrayList<BookDto> result = response.readEntity(BookList.class);
+                Assertions.assertAll("Must be done in order to know there where data", () -> {
+                    Assertions.assertEquals(200, response.getStatus());
+                    Assertions.assertTrue(!result.isEmpty());
+                });
+            }
         }
     }
 }
