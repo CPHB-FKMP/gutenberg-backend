@@ -82,7 +82,6 @@ public class PerformanceIT extends AbstractResourceTests {
     }
 
     @Test
-    @DisplayName("")
     public void getData(){
         for (int i = 0; i < times; i++) {
             MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
