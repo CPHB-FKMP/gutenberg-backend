@@ -64,7 +64,7 @@ docker exec neo4j-data sh -c 'neo4j-admin import \
     --ignore-duplicate-nodes=true \
 --delimiter "|"'
 ```
-It’s expected to have this image: [https://hub.docker.com/r/aaxa/gutenberg-neo4j/] running where the data is already present. It can be run by following the description on the image page.
+It’s expected to have this image: https://hub.docker.com/r/aaxa/gutenberg-neo4j/ running where the data is already present. It can be run by following the description on the image page.
 
 ## Behavior of query test set
 
@@ -79,7 +79,7 @@ The first image is our own native query execution plan, and the second is JPQL.
 
 To compare the results through our application and directly benchmarked on the database, we have conducted tests on both sides. One through HTTP and one directly through the driver for Java without object mapping or HTTP requests. What we see is that Neo4j is falling a bit behind when calling it through the API. It’s still the fastest in most cases, but in some of the more expensive operations it’s sometimes slower or the same as PostgreSQL.
 
-![jpql execute](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/jpql-execution.png)
+ 
  
 We’re certain that the reason for the huge gap in performance on some operations lie within the mapping of the objects. We had some issues with PostgreSQL and the mapping from native queries, which makes PostgreSQL a lot slower. When querying with a city name, we see approximately the same results, while Neo4j is generally faster in all other cases. This also means that we’re seeing contradicting results. Our benchmarks are telling us that Neo4j is the clear winner here, while our performance tests through the application tells us it’s a much closer race.
  
