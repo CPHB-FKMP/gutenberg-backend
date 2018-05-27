@@ -79,10 +79,17 @@ The first image is our own native query execution plan, and the second is JPQL.
 
 To compare the results through our application and directly benchmarked on the database, we have conducted tests on both sides. One through HTTP and one directly through the driver for Java without object mapping or HTTP requests. What we see is that Neo4j is falling a bit behind when calling it through the API. It’s still the fastest in most cases, but in some of the more expensive operations it’s sometimes slower or the same as PostgreSQL.
 
- 
+![neo4j benchmark](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/Neo4jBenchmark.png)
+
+![neo4j performance](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/neo4j-performance.png)
+
+![postgres benchmark](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/PostgresBenchmark.png)
+
+![postgres performance](https://github.com/CPHB-FKMP/gutenberg-backend/blob/master/images/benchmarks/postgres-performance.png)
  
 We’re certain that the reason for the huge gap in performance on some operations lie within the mapping of the objects. We had some issues with PostgreSQL and the mapping from native queries, which makes PostgreSQL a lot slower. When querying with a city name, we see approximately the same results, while Neo4j is generally faster in all other cases. This also means that we’re seeing contradicting results. Our benchmarks are telling us that Neo4j is the clear winner here, while our performance tests through the application tells us it’s a much closer race.
- 
+
+Though, we can also conclude from our results, that Neo4j is generally much faster than PostgreSQL when executing the queries natively and without Java object mapping.
 ## Recomendation
 Of the two databases we chose to benchmark and work with here, we’d highly recommend Neo4j based on performance alone. When it comes to scaling, Neo4j has a big drawback because there is no possibility to scale horizontally. This could be a huge handicap in this project because every day a new book can be released as public domain. Where with PostgreSQL using we would have a lot of different ways to handle horizontal scaling, like Sharding, Clustering or Pooling. This would make it so that PostgreSQL could be a better choice. So it really comes down to scaling and performance. We could probably have optimized PostgreSQL performance by denormalizing the tables.
 This makes it really difficult to recommend a database strategy. If we look 10 or 20 years into the future, we probably won’t have any scaling issues, if we consider the amount of data and the complexity of it. There is on average added 50 books per week. So with that in mind our recommendation would be Neo4j.
