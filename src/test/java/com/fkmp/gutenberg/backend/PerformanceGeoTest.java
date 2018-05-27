@@ -26,39 +26,39 @@ public class PerformanceGeoTest extends AbstractResourceTests {
     String lat;
     String lng;
 
-    public PerformanceGeoTest(String path, int port, List<Double> list, int times, String lat, String lng) {
+    public PerformanceGeoTest(String path, int port, List<Double> list, String lat, String lng) {
         this.path = path;
         this.port = port;
         this.list = list;
-        this.times = times;
+        this.times = 2;
         this.lat = lat;
         this.lng = lng;
     }
 
-    @Parameterized.Parameters(name = "{index}: testEquals({0})")
+    @Parameterized.Parameters(name = "{index} - {0}: testEquals(lat : {3}, long : {4})")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"/postgres/book", 8081, new ArrayList<>(), 2, "34.366500", "-89.519250"},
-                {"/postgres/book", 8081, new ArrayList<>(), 2, "42.440630", "-76.496610"},
-                {"/postgres/book", 8081, new ArrayList<>(), 2, "34.802430", "-86.972190"},
-                {"/postgres/book", 8081, new ArrayList<>(), 2, "43.983330", "25.333330"},
-                {"/postgres/book", 8081, new ArrayList<>(), 2, "42.728410", "-73.691790"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 2, "34.366500", "-89.519250"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 2, "42.440630", "-76.496610"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 2, "34.802430", "-86.972190"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 2, "43.983330", "25.333330"},
-                {"/neo4j/book", 8081, new ArrayList<>(), 2, "42.728410", "-73.691790"},
+                {"/postgres/book", 8081, new ArrayList<>(), "34.366500", "-89.519250"},
+                {"/postgres/book", 8081, new ArrayList<>(), "42.440630", "-76.496610"},
+                {"/postgres/book", 8081, new ArrayList<>(), "34.802430", "-86.972190"},
+                {"/postgres/book", 8081, new ArrayList<>(), "43.983330", "25.333330"},
+                {"/postgres/book", 8081, new ArrayList<>(), "42.728410", "-73.691790"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "34.366500", "-89.519250"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "42.440630", "-76.496610"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "34.802430", "-86.972190"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "43.983330", "25.333330"},
+                {"/neo4j/book", 8081, new ArrayList<>(), "42.728410", "-73.691790"},
         });
     }
 
     @Before
     public void setUp() {
-
+        System.out.println("---------------------" + path + "-------------------------------");
     }
 
     @After
     public void tearDown() {
-        System.out.println(lat + " : " + lng);
+        System.out.println(path);
         System.out.println("Average : " + getAverage(list));
         System.out.println("Median : " + getMedian(list));
 
@@ -75,7 +75,7 @@ public class PerformanceGeoTest extends AbstractResourceTests {
             long startTime = System.nanoTime();
             Response response = getRequest(path, params, port).get();
             long endTime = System.nanoTime() - startTime;
-            double totalTime = ((double) endTime / 1000000000.0);
+            double totalTime = ((double) endTime / 1000000.0);
             list.add(totalTime);
             System.out.println(totalTime);
 

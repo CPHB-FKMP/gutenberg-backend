@@ -32,7 +32,7 @@ public class PerformanceIT extends AbstractResourceTests {
         this.value = value;
     }
 
-    @Parameterized.Parameters(name = "{index}: testEquals({0})")
+    @Parameterized.Parameters(name = "{index} - {0} : Parameter({3} == {4})")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
                 {"/postgres/book", 8081, new ArrayList<>(), "city", "Copenhagen"},
@@ -70,11 +70,12 @@ public class PerformanceIT extends AbstractResourceTests {
 
     @Before
     public void setUp() {
-
+        System.out.println("---------------------" + path + "-------------------------------");
     }
 
     @After
     public void tearDown() {
+        System.out.println(path);
         System.out.println(param + " : " + value);
         System.out.println("Average : " + getAverage(list));
         System.out.println("Median : " + getMedian(list));

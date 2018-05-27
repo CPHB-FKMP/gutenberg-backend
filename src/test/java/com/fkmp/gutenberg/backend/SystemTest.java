@@ -53,7 +53,7 @@ public class SystemTest extends AbstractResourceTests{
         this.driver.quit();
     }
 
-    @Parameterized.Parameters(name = "{index}: testEquals({1} == {2})")
+    @Parameterized.Parameters(name = "{index} - {0} : testEquals({1} == {2})")
     public static Collection<Object[]> data(){
         return Arrays.asList(new Object[][]{
                 {"neo4j", "city", "London", 5, Arrays.asList(
