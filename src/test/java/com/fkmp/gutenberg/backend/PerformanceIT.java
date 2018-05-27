@@ -85,7 +85,7 @@ public class PerformanceIT extends AbstractResourceTests {
     public void getData(){
         for (int i = 0; i < times; i++) {
             MultivaluedMap<String, String> params = new MultivaluedHashMap<>();
-            params.putSingle("city", "London");
+            params.putSingle(param, value);
 
             long startTime = System.nanoTime();
             Response response = getRequest(path, params, port).get();
