@@ -2,7 +2,6 @@ package com.fkmp.gutenberg.backend.model.postgres;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "cities")
