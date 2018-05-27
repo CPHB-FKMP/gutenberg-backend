@@ -2,11 +2,8 @@ package com.fkmp.gutenberg.backend.model.postgres;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.jboss.logging.Field;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 @SqlResultSetMappings({
